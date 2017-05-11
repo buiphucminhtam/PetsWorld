@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.FitWindowsLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/title_gray">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtPostWriting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#fff"
+            android:gravity="top"
+            android:hint="Bài viết"
+            android:textColor="@color/text_msg_input"
+            android:textColorHint="@color/title_gray" />
+    </android.support.design.widget.TextInputLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/gvPickedImage"
+                android:scrollbars="horizontal">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </HorizontalScrollView>
+    <android.support.v7.widget.FitWindowsLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/body_background"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnPostImage"
+            android:drawableStart="@drawable/ic_image"
+            android:textColor="@color/text_msg_input"
+            android:text="Hình ảnh"
+            android:textAllCaps="false"
+            android:background="@color/body_background"
+            />
+
+    </android.support.v7.widget.FitWindowsLinearLayout>
+
+
+</android.support.v7.widget.FitWindowsLinearLayout>

@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">PetsWorld</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="facebook_app_id">277907539289841</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="myAlphaNumeric">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
+    <string name="myPhoneNumberic">+0123456789</string>
+    <string name="title_activity_place_post">PlacePostActivity</string>
+    <string name="loginname">Tên đăng nhập</string>
+    <string name="login_button">Đăng Nhập</string>
+    <string name="register_button">Đăng Ký</string>
+    <string name="login_password">Mật khẩu</string>
+    <string name="login_failed">Đăng nhập thất bại</string>
+    <string name="login_successed">Đăng nhập thành công</string>
+    <string name="register_tittle">Đăng Ký</string>
+    <string name="register_confirmpassword">Xác nhận mật khẩu</string>
+    <string name="error_length_input_register">Tên đăng nhập và mật khẩu phải dài trên 6 ký tự</string>
+    <string name="error_password_notequal_register">Mật khẩu xác nhận phải trùng với mật khẩu</string>
+    <string name="register_successed">Đăng ký thành công</string>
+    <string name="register_failed">Tên đăng nhập đã có người sử dụng</string>
+    <string name="quit">Thoát</string>
+</resources>

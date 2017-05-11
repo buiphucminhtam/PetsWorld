@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+
+    <android.support.design.internal.ForegroundLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/body_background"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/imvUpdateImgUserInfo"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_person"
+            tools:ignore="ContentDescription,RtlHardcoded"
+            android:contentDescription="" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:id="@+id/edtUpdateUserName"
+                    android:textColorHint="#cd04df"
+                    android:textColorHighlight="@color/black"
+                    android:textColor="@color/text_msg_input"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ngày sinh"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:textColorHint="#cd04df"
+                    android:textColorHighlight="@color/black"
+                    android:id="@+id/edtUpdateBirthDay"
+                    android:digits="@string/myPhoneNumberic"
+                    android:textColor="@color/text_msg_input"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Địa chỉ"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:inputType="text"
+                    android:textColorHint="#cd04df"
+                    android:textColorHighlight="@color/black"
+                    android:id="@+id/edtUpdateAddress"
+                    android:textColor="@color/text_msg_input"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Số điện thoại"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:textColorHint="#cd04df"
+                    android:textColorHighlight="@color/black"
+                    android:id="@+id/edtUpdatePhonenumber"
+                    android:digits="@string/myPhoneNumberic"
+                    android:textColor="@color/text_msg_input"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+        </LinearLayout>
+    </android.support.design.internal.ForegroundLinearLayout>
+
+    <android.support.design.internal.ForegroundLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/roundedbutton"
+            android:padding="10dp"
+            android:text="Chỉnh sửa"
+            android:textColor="@color/white"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundedbutton"
+            android:padding="10dp"
+            android:text="Hủy"
+            android:textColor="@color/white" />
+
+    </android.support.design.internal.ForegroundLinearLayout>
+
+</LinearLayout>

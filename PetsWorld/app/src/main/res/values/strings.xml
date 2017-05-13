@@ -22,4 +22,6 @@
     <string name="register_successed">Đăng ký thành công</string>
     <string name="register_failed">Tên đăng nhập đã có người sử dụng</string>
     <string name="quit">Thoát</string>
+    <string name="error_connection">Thao tác thất bại, kiểm tra lại kết nối mạng</string>
+    <string name="edit">Chỉnh sửa</string>
 </resources>

@@ -14,20 +14,25 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class CallPetInfo {
 
-    public  final String OPERATION_NAME = WebserviceAddress.OPERATION_GET_PETINFO;
+    private final String OPERATION_NAME_GET = WebserviceAddress.OPERATION_GET_PETINFO;
+    private final String OPERATION_NAME_INSERT = WebserviceAddress.OPERATION_INSERT_PETINFO;
+    private final String OPERATION_NAME_UPDATE = WebserviceAddress.OPERATION_UPDATE_PETINFO;
 
-    public  final String WSDL_TARGET_NAMESPACE = WebserviceAddress.WSDL_TARGET_NAMESPACE;
+    private final String WSDL_TARGET_NAMESPACE = WebserviceAddress.WSDL_TARGET_NAMESPACE;
 
-    public  final String SOAP_ADDRESS = WebserviceAddress.SOAP_ADDRESS;
+    private final String SOAP_ADDRESS = WebserviceAddress.SOAP_ADDRESS;
 
-    public final String SOAP_ACTION = WSDL_TARGET_NAMESPACE+OPERATION_NAME;
+    private final String SOAP_ACTION_GET = WSDL_TARGET_NAMESPACE+OPERATION_NAME_GET;
+    private final String SOAP_ACTION_INSERT = WSDL_TARGET_NAMESPACE+OPERATION_NAME_INSERT;
+    private final String SOAP_ACTION_UPDATE = WSDL_TARGET_NAMESPACE+OPERATION_NAME_UPDATE;
+
 
     public CallPetInfo() {
         super();
     }
 
     public String CallGet(int id) {
-        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_NAME);
+        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_NAME_GET);
         PropertyInfo pi=new PropertyInfo();
         pi.setName("id");
         pi.setValue(id);
@@ -46,7 +51,7 @@ public class CallPetInfo {
         Object response=null;
         try
         {
-            httpTransport.call(SOAP_ACTION, envelope);
+            httpTransport.call(SOAP_ACTION_GET, envelope);
             response = envelope.getResponse();
         }
         catch (Exception exception)
@@ -56,4 +61,63 @@ public class CallPetInfo {
         return response.toString();
     }
 
+    public int CallInsert(String jsonPetInfo) {
+        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_NAME_INSERT);
+        PropertyInfo pi=new PropertyInfo();
+        pi.setName("jsonPetInfo");
+        pi.setValue(jsonPetInfo);
+        pi.setType(String.class);
+        request.addProperty(pi);
+
+        Log.d("request",request.toString());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);
+        envelope.dotNet = true;
+
+        envelope.setOutputSoapObject(request);
+
+        HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
+        Object response=null;
+        try
+        {
+            httpTransport.call(SOAP_ACTION_INSERT, envelope);
+            response = envelope.getResponse();
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return Integer.parseInt(response.toString());
+    }
+
+    public int CallUpdate(String jsonPetInfo) {
+        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_NAME_UPDATE);
+        PropertyInfo pi=new PropertyInfo();
+        pi.setName("jsonPetInfo");
+        pi.setValue(jsonPetInfo);
+        pi.setType(String.class);
+        request.addProperty(pi);
+
+        Log.d("request",request.toString());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);
+        envelope.dotNet = true;
+
+        envelope.setOutputSoapObject(request);
+
+        HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
+        Object response=null;
+        try
+        {
+            httpTransport.call(SOAP_ACTION_UPDATE, envelope);
+            response = envelope.getResponse();
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return Integer.parseInt(response.toString());
+    }
 }

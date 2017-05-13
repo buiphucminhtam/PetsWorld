@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.minhtam.petsworld.Class.UserInfo;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.CallLogin;
 
@@ -119,8 +120,13 @@ public class LoginActivity extends Activity {
                     }
                     toast = Toast.makeText(LoginActivity.this,R.string.login_successed, Toast.LENGTH_SHORT);
                     toast.show();
+                    //Get user info
+                    UserInfo userInfo = new UserInfo();
+                    userInfo.setId(jsonObject.getString("id"));
+                    userInfo.setFullname(jsonObject.getString("fullname"));
                     //start activity
                     Intent i = new Intent(LoginActivity.this,MainActivity.class);
+                    i.putExtra("userInfo",userInfo);
                     startActivity(i);
                     edtUsername.setText("");
                     edtPasssword.setText("");

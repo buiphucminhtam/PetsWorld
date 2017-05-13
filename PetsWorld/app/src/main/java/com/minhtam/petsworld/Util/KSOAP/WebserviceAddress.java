@@ -18,6 +18,7 @@ public class WebserviceAddress
     //USER INFO
     public  static final String OPERATION_GET_USERINFO = "GetUserInfo";
     public  static final String OPERATION_UPDATE_USERINFO  = "UpdateUserInfo";
+    public  static final String OPERATION_UPDATE_USERIMAGE = "UploadUserImage";
     //PET INFO
     public  static final String OPERATION_GET_PETINFO = "GetPetInfo";
     public  static final String OPERATION_INSERT_PETINFO = "InsertPetInfo";

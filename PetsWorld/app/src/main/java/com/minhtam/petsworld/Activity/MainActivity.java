@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.minhtam.petsworld.Adapter.MenuFragmentPageAdapter;
+import com.minhtam.petsworld.Class.UserInfo;
 import com.minhtam.petsworld.Fragment.FindOwnersFragment;
 import com.minhtam.petsworld.Fragment.FindPetsFragment;
 import com.minhtam.petsworld.Fragment.UserInformationFragment;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    public static UserInfo userInfo;
     private int[] tabIcons ={R.drawable.ic_menu,R.drawable.ic_pets,R.drawable.ic_person_pin_circle,R.drawable.ic_account_box};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
+        //get user info
+        userInfo = getIntent().getParcelableExtra("userInfo");
 
         //Setup tablauout
         tabLayout = (TabLayout) findViewById(R.id.tabs);

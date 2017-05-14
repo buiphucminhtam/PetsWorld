@@ -31,7 +31,7 @@ public class CallPetInfo {
         super();
     }
 
-    public String CallGet(int id) {
+    public String Get(int id) {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_NAME_GET);
         PropertyInfo pi=new PropertyInfo();
         pi.setName("id");
@@ -61,7 +61,7 @@ public class CallPetInfo {
         return response.toString();
     }
 
-    public int CallInsert(String jsonPetInfo) {
+    public int Insert(String jsonPetInfo) {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_NAME_INSERT);
         PropertyInfo pi=new PropertyInfo();
         pi.setName("jsonPetInfo");
@@ -91,7 +91,7 @@ public class CallPetInfo {
         return Integer.parseInt(response.toString());
     }
 
-    public int CallUpdate(String jsonPetInfo) {
+    public int Update(String jsonPetInfo) {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_NAME_UPDATE);
         PropertyInfo pi=new PropertyInfo();
         pi.setName("jsonPetInfo");

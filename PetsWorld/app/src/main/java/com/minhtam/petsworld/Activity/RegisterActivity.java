@@ -103,7 +103,7 @@ public class RegisterActivity extends Activity {
             userinfo.setDatecreated(df.format(calobj.getTime()));
             userinfo.setUserimage("None");
             CallRegister register = new CallRegister();
-            return register.Call(new Gson().toJson(userinfo));
+            return register.Register(new Gson().toJson(userinfo));
         }
 
         @Override

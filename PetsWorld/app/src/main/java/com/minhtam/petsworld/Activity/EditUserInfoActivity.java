@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,10 +40,14 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
     private Uri imagePicked;
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_info);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AddControl();
@@ -92,6 +97,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     userInfo.setFullname(edtUpdateName.getText().toString());
                     userInfo.setAddress(edtUpdateAddress.getText().toString());
 
+                    updateUserInfo.execute();
                 }
             }
         });
@@ -112,7 +118,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream .toByteArray();
 
-        String result = callUserInfo.CallUpdateUserImage(Base64.encodeToString(byteArray,Base64.DEFAULT)
+        String result = callUserInfo.UpdateUserImage(Base64.encodeToString(byteArray,Base64.DEFAULT)
                 ,Integer.parseInt(MainActivity.userInfo.getId()));
 
         return result;
@@ -175,7 +181,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
             String userimage = updateUserImage();
             if (!userimage.equals("0")) {
                 MainActivity.userInfo.setUserimage(userimage);
-                if (callUserInfo.CallUpdate(MainActivity.userInfo.toJSON()) == 1) {
+                if (callUserInfo.Update(MainActivity.userInfo.toJSON()) == 1) {
                     return 1;
                 } else {
                     return 0;

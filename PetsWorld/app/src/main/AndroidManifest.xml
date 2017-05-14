@@ -29,7 +29,8 @@
         <activity
             android:name=".Activity.RegisterActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".Activity.EditUserInfoActivity"></activity>
+        <activity android:name=".Activity.EditUserInfoActivity" />
+        <activity android:name=".Activity.ImageActivity"></activity>
     </application>
 
 </manifest>

@@ -48,9 +48,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                     notifyItemRangeChanged(position, listPickedImage.size());
                 }
             });
-            Picasso.with(context).load("file://" + listPickedImage.get(position)).config(Bitmap.Config.RGB_565).fit().centerCrop().into(holder.img);
+            Picasso.with(context).load("file://" + listPickedImage.get(position)).config(Bitmap.Config.RGB_565).fit().centerCrop().placeholder(R.layout.progress_layout).into(holder.img);
         } else {
-            Picasso.with(context).load(listPickedImage.get(position)).config(Bitmap.Config.RGB_565).fit().centerCrop().placeholder(R.drawable.progress_image).into(holder.img);
+            Picasso.with(context).load(listPickedImage.get(position)).config(Bitmap.Config.RGB_565).fit().centerCrop().placeholder(R.layout.progress_layout).into(holder.img);
         }
 
 

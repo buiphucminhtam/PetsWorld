@@ -56,7 +56,7 @@ public class CallUserInfo {
         return response.toString();
     }
 
-    public int CallUpdate(String jsonUserInfo) {
+    public int Update(String jsonUserInfo) {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, OPERATION_NAME_UPDATE_USERINFO);
         PropertyInfo pi = new PropertyInfo();
         pi.setName("jsonUserInfo");
@@ -83,7 +83,7 @@ public class CallUserInfo {
         return Integer.parseInt(response.toString());
     }
 
-    public String CallUpdateUserImage(String userImageBase64, int userid) {
+    public String UpdateUserImage(String userImageBase64, int userid) {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, SOAP_ACTION_UPDATE_USERIMAGE);
         PropertyInfo pi = new PropertyInfo();
         pi.setName("byteArray");

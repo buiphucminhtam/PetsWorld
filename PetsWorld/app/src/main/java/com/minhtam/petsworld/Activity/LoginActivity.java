@@ -94,7 +94,7 @@ public class LoginActivity extends Activity {
         protected String doInBackground(Void... params) {
             try {
                 CallLogin login = new CallLogin();
-                return login.Call(username, password);
+                return login.Login(username, password);
             } catch (Exception e) {
                 return "";
             }

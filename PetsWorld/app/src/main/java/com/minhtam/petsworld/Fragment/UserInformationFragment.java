@@ -91,4 +91,6 @@ public class UserInformationFragment extends Fragment {
         tvUserAddress.setText(MainActivity.userInfo.getAddress());
         tvUserPhonenumbers.setText(MainActivity.userInfo.getPhone());
     }
+
+
 }

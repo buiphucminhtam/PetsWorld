@@ -14,7 +14,6 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class CallLogin {
 
-
     public  final String OPERATION_NAME = WebserviceAddress.OPERATION_LOGIN;
 
     public  final String WSDL_TARGET_NAMESPACE = WebserviceAddress.WSDL_TARGET_NAMESPACE;
@@ -27,7 +26,7 @@ public class CallLogin {
         super();
     }
 
-    public String Call(String username,String password) {
+    public String Login(String username,String password) {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_NAME);
         PropertyInfo pi=new PropertyInfo();
         pi.setName("userName");

@@ -13,26 +13,13 @@
         <include layout="@layout/toolbar"></include>
    </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent">
         <include layout="@layout/layout_place_post"></include>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <GridView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/gvPhoto"
-            android:columnWidth="120dp"
-            android:verticalSpacing="2dp"
-            android:horizontalSpacing="2dp"
-            android:numColumns="3">
-        </GridView>
-    </LinearLayout>
 
 
 </android.support.v7.widget.FitWindowsLinearLayout>

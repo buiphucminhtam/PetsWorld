@@ -26,7 +26,7 @@ public class CallRegister {
         super();
     }
 
-    public String Call(String userInfo) {
+    public String Register(String userInfo) {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_NAME);
         PropertyInfo pi=new PropertyInfo();
         pi.setName("userinfo");

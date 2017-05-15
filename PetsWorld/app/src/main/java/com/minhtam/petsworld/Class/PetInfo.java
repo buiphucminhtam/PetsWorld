@@ -1,12 +1,15 @@
 package com.minhtam.petsworld.Class;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.Gson;
 
 /**
  * Created by st on 5/9/2017.
  */
 
-public class PetInfo {
+public class PetInfo implements Parcelable{
     private int id,userid,typeid,vacine;
     private String name, datecreated;
 
@@ -22,6 +25,27 @@ public class PetInfo {
     public PetInfo() {
         super();
     }
+
+    protected PetInfo(Parcel in) {
+        id = in.readInt();
+        userid = in.readInt();
+        typeid = in.readInt();
+        vacine = in.readInt();
+        name = in.readString();
+        datecreated = in.readString();
+    }
+
+    public static final Creator<PetInfo> CREATOR = new Creator<PetInfo>() {
+        @Override
+        public PetInfo createFromParcel(Parcel in) {
+            return new PetInfo(in);
+        }
+
+        @Override
+        public PetInfo[] newArray(int size) {
+            return new PetInfo[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -74,5 +98,20 @@ public class PetInfo {
     public String toJSON() {
         Gson gson = new Gson();
         return gson.toJson(this);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(userid);
+        dest.writeInt(typeid);
+        dest.writeInt(vacine);
+        dest.writeString(name);
+        dest.writeString(datecreated);
     }
 }

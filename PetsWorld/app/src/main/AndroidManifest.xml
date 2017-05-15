@@ -30,7 +30,8 @@
             android:name=".Activity.RegisterActivity"
             android:launchMode="singleInstance" />
         <activity android:name=".Activity.EditUserInfoActivity" />
-        <activity android:name=".Activity.ImageActivity"></activity>
+        <activity android:name=".Activity.ImageActivity" />
+        <activity android:name=".Activity.InsertPetInfoActivity"></activity>
     </application>
 
 </manifest>

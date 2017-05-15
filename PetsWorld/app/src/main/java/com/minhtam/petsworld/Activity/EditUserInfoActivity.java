@@ -46,12 +46,16 @@ public class EditUserInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_info);
+        InitToolBar();
+        AddControl();
+        AddEvent();
+    }
+
+    private void InitToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        AddControl();
-        AddEvent();
     }
 
     private void AddControl() {

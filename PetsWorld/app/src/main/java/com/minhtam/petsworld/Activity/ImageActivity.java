@@ -50,20 +50,20 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     private void AddEvent() {
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem item = menu.add(1,1,1,"");
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        item.setIcon(R.drawable.ic_photo_camera);
+        item.setIcon(R.drawable.ic_add_a_photo_white_24dp);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            PlacePostActivity.listImage = listSelected;
             finish();
         } else if (item.getItemId() == 1) {
 
@@ -143,4 +143,6 @@ public class ImageActivity extends AppCompatActivity {
 
         return resultIAV;
     }
+
+
 }

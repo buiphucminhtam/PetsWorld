@@ -24,4 +24,12 @@
     <string name="quit">Thoát</string>
     <string name="error_connection">Thao tác thất bại, kiểm tra lại kết nối mạng</string>
     <string name="edit">Chỉnh sửa</string>
+    <string name="pet_name">Tên thú nuôi</string>
+    <string name="insertpetinfo_tittle">Thêm thông tin thú nuôi</string>
+    <string name="pet_type">Loại thú</string>
+    <string name="pet_vacines">Tiêm chủng</string>
+    <string name="post_description">Mô tả</string>
+    <string name="post_requirement">Yêu cầu</string>
+    <string name="pet_info">Thông tin thú nuôi</string>
+    <string name="OK">Hoàn Tất</string>
 </resources>

@@ -42,6 +42,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <TextView
+            android:id="@+id/tvInsertPetInfo_PetType"
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
             android:textSize="15sp"
@@ -49,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/tvInsertPetInfo_Vacines"
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
             android:textSize="15sp"
@@ -58,6 +60,7 @@
 
         <ExpandableListView
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/exlvInsertPetInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

@@ -29,9 +29,9 @@
         <activity
             android:name=".Activity.RegisterActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".Activity.EditUserInfoActivity" />
-        <activity android:name=".Activity.ImageActivity" />
-        <activity android:name=".Activity.InsertPetInfoActivity"></activity>
+        <activity android:name=".Activity.EditUserInfoActivity" android:launchMode="singleInstance"/>
+        <activity android:name=".Activity.ImageActivity" android:launchMode="singleInstance"/>
+        <activity android:name=".Activity.InsertPetInfoActivity" android:launchMode="singleInstance"></activity>
     </application>
 
 </manifest>

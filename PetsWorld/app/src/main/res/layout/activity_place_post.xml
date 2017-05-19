@@ -10,14 +10,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <include layout="@layout/toolbar"></include>
+        <include layout="@layout/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content">
+        </include>
    </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include layout="@layout/layout_place_post"></include>
+        <include layout="@layout/layout_place_post" android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        </include>
     </LinearLayout>
 
 

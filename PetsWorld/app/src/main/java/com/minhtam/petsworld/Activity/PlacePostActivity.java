@@ -104,4 +104,6 @@ public class PlacePostActivity extends AppCompatActivity {
             PetInfo petInfo = data.getParcelableExtra("petinfo");
         }
     }
+
+
 }

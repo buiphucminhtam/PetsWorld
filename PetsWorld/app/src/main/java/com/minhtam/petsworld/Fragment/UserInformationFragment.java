@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.minhtam.petsworld.Activity.EditUserInfoActivity;
 import com.minhtam.petsworld.Activity.MainActivity;
 import com.minhtam.petsworld.R;
+import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -39,7 +40,6 @@ public class UserInformationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_user_information, container, false);
         setHasOptionsMenu(true);
@@ -55,6 +55,7 @@ public class UserInformationFragment extends Fragment {
         tvUserAddress = (TextView) v.findViewById(R.id.tvUserAddress);
         tvUserPhonenumbers = (TextView) v.findViewById(R.id.tvPhoneNumbers);
 
+        updateUserInfo();
     }
 
     private void AddEvent() {
@@ -64,7 +65,8 @@ public class UserInformationFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.add(1,1,1,R.string.edit);
+        MenuItem item = menu.add(1,1,1,R.string.edit);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     @Override
@@ -86,11 +88,15 @@ public class UserInformationFragment extends Fragment {
     }
 
     private void updateUserInfo() {
-        Picasso.with(getContext()).load(MainActivity.userInfo.getUserimage()).fit().into(imvUserImage);
+        if (!MainActivity.userInfo.getUserimage().equals("None")) {
+            Picasso.with(getContext()).load(WebserviceAddress.WEB_ADDRESS+MainActivity.userInfo.getUserimage()).fit().into(imvUserImage);
+        }
         tvUserName.setText(MainActivity.userInfo.getFullname());
         tvUserAddress.setText(MainActivity.userInfo.getAddress());
         tvUserPhonenumbers.setText(MainActivity.userInfo.getPhone());
     }
+
+
 
 
 }

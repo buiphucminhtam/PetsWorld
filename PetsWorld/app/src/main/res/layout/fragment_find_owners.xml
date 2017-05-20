@@ -26,8 +26,8 @@
 
             <ImageView
                 android:id="@+id/imvFindOwner_userimage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"/>
             <TextView
                 android:id="@+id/tvFindOwner_userPost"

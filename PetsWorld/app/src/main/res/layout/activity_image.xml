@@ -12,6 +12,7 @@
 
     <GridView
         android:id="@+id/gvPhoto"
+        android:listSelector="@color/selector"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:choiceMode="multipleChoiceModal"

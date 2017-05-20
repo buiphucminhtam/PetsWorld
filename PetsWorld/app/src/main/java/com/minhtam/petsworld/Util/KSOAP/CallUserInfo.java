@@ -83,8 +83,8 @@ public class CallUserInfo {
         return Integer.parseInt(response.toString());
     }
 
-    public String UpdateUserImage(String userImageBase64, int userid) {
-        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, SOAP_ACTION_UPDATE_USERIMAGE);
+    public String UpdateUserImage(String userImageBase64, int userid,String url) {
+        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, OPERATION_NAME_UPDATE_USERIMAGE);
         PropertyInfo pi = new PropertyInfo();
         pi.setName("byteArray");
         pi.setValue(userImageBase64);
@@ -95,6 +95,12 @@ public class CallUserInfo {
         pi.setName("userid");
         pi.setValue(userid);
         pi.setType(Integer.class);
+        request.addProperty(pi);
+
+        pi = new PropertyInfo();
+        pi.setName("url");
+        pi.setValue(url);
+        pi.setType(String.class);
         request.addProperty(pi);
 
         Log.d("request", request.toString());
@@ -108,7 +114,7 @@ public class CallUserInfo {
         HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
         Object response = null;
         try {
-            httpTransport.call(SOAP_ACTION_UPDATE_USERINFO, envelope);
+            httpTransport.call(SOAP_ACTION_UPDATE_USERIMAGE, envelope);
             response = envelope.getResponse();
         } catch (Exception exception) {
             response = exception.toString();

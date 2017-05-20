@@ -8,8 +8,9 @@ public class WebserviceAddress
 {
     public  static final String WSDL_TARGET_NAMESPACE = "http://buiphucminhtam.com/";
 
-    public  static final String SOAP_ADDRESS = "http://192.168.1.2/C/Service1.asmx";
+    public  static final String SOAP_ADDRESS = "http://192.168.1.3/C/Service1.asmx";
 
+    public  static final String WEB_ADDRESS = "http://192.168.1.3/C/";
 
 
     /**OPERATION**/
@@ -24,6 +25,11 @@ public class WebserviceAddress
     public  static final String OPERATION_INSERT_PETINFO = "InsertPetInfo";
     public  static final String OPERATION_UPDATE_PETINFO  = "UpdatePetInfo";
     public  static final String OPERATION_DELETE_PETINFO  = "DeletePetInfo";
+    //PET TYPE
+    public  static final String OPERATION_GET_PETTYPE = "GetPetType";
+    public  static final String OPERATION_INSERT_PETTYPE = "InsertPetType";
+    public  static final String OPERATION_UPDATE_PETTYPE  = "UpdatePetType";
+    public  static final String OPERATION_DELETE_PETTYPE  = "DeletePetType";
     //POST FIND OWNER
     public  static final String OPERATION_GET_POST_FINDOWNER_MAXID = "GetPostMaxIdFindOwner";
     public  static final String OPERATION_GET_POST_FINDOWNER_NEWEST = "GetPostFindOwnerNewest";

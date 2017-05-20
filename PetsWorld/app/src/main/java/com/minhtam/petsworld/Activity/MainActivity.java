@@ -1,11 +1,13 @@
 package com.minhtam.petsworld.Activity;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
@@ -16,8 +18,16 @@ import com.minhtam.petsworld.Fragment.FindOwnersFragment;
 import com.minhtam.petsworld.Fragment.FindPetsFragment;
 import com.minhtam.petsworld.Fragment.UserInformationFragment;
 import com.minhtam.petsworld.R;
+import com.minhtam.petsworld.Util.KSOAP.CallUserInfo;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final String TAG = "MainActivity";
+
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -41,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         //get user info
         userInfo = getIntent().getParcelableExtra("userInfo");
+        new getUserInfo().execute();
 
         //Setup tablauout
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -103,5 +114,27 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout ll = (LinearLayout) findViewById(R.id.activity_main);
         ll.clearAnimation();
         ll.startAnimation(a);
+    }
+
+    private class getUserInfo extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... params) {
+            CallUserInfo callUserInfo = new CallUserInfo();
+            String jsonUserInfo = callUserInfo.CallGet(Integer.parseInt(MainActivity.userInfo.getId()));
+            Log.d(TAG,"jsonUSERINFO: "+jsonUserInfo);
+            try {
+                JSONArray jsonArray = new JSONArray(jsonUserInfo);
+                JSONObject jsonObject = new JSONObject(jsonArray.getString(0));
+                userInfo.setUserimage(jsonObject.getString("userimage"));
+                userInfo.setAddress(jsonObject.getString("address"));
+                userInfo.setPhone(jsonObject.getString("phone"));
+                userInfo.setDatecreated(jsonObject.getString("datecreated"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
     }
 }

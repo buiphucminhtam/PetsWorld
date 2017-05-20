@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 import com.minhtam.petsworld.Class.UserInfo;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.CallUserInfo;
+import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -29,6 +32,7 @@ import java.io.InputStream;
 
 public class EditUserInfoActivity extends AppCompatActivity {
 
+    private final String TAG = "EditUserInfoActivity";
     private final int PICK_IMAGE = 1;
 
     //Dialog update information
@@ -64,8 +68,20 @@ public class EditUserInfoActivity extends AppCompatActivity {
         edtUpdateAddress = (EditText) findViewById(R.id.edtUpdateAddress);
         edtUpdatePhonenumbers = (EditText) findViewById(R.id.edtUpdatePhonenumber);
         btnOK = (Button) findViewById(R.id.btnOK);
+        
+        initUI();
 
         callUserInfo = new CallUserInfo();
+    }
+
+    private void initUI() {
+        UserInfo userInfo = MainActivity.userInfo;
+        if (!userInfo.getUserimage().equals("None")) {
+            Picasso.with(EditUserInfoActivity.this).load(WebserviceAddress.WEB_ADDRESS+userInfo.getUserimage()).fit().into(imvUpdateImg);
+        }
+        edtUpdateName.setText(userInfo.getFullname());
+        edtUpdatePhonenumbers.setText(userInfo.getPhone());
+        edtUpdateAddress.setText(userInfo.getAddress());
     }
 
     private void AddEvent() {
@@ -100,8 +116,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     userInfo.setPhone(edtUpdatePhonenumbers.getText().toString());
                     userInfo.setFullname(edtUpdateName.getText().toString());
                     userInfo.setAddress(edtUpdateAddress.getText().toString());
-
-                    updateUserInfo.execute();
+                    new UpdateInfo().execute();
                 }
             }
         });
@@ -123,7 +138,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         byte[] byteArray = byteArrayOutputStream .toByteArray();
 
         String result = callUserInfo.UpdateUserImage(Base64.encodeToString(byteArray,Base64.DEFAULT)
-                ,Integer.parseInt(MainActivity.userInfo.getId()));
+                ,Integer.parseInt(MainActivity.userInfo.getId()),MainActivity.userInfo.getUserimage());
 
         return result;
     }
@@ -161,13 +176,15 @@ public class EditUserInfoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            Log.d(TAG,data.toString());
             if (data == null) return;
             imagePicked = data.getData();
+            Log.d(TAG,imagePicked.toString());
             imvUpdateImg.setImageURI(imagePicked);
         }
     }
 
-    private AsyncTask<Void,Void,Integer> updateUserInfo = new AsyncTask<Void, Void, Integer>() {
+    private class UpdateInfo extends AsyncTask<Void,Void,Integer> {
 
         Dialog progressDialog;
         @Override
@@ -177,12 +194,14 @@ public class EditUserInfoActivity extends AppCompatActivity {
             progressDialog.setCancelable(false);
             progressDialog.show();
             progressDialog.setContentView(R.layout.progress_layout);
+            progressDialog.getWindow().setBackgroundDrawableResource(R.drawable.background_transparent);
             progressDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
         }
 
         @Override
         protected Integer doInBackground(Void... params) {
             String userimage = updateUserImage();
+            Log.d(TAG,"userimage: "+ userimage);
             if (!userimage.equals("0")) {
                 MainActivity.userInfo.setUserimage(userimage);
                 if (callUserInfo.Update(MainActivity.userInfo.toJSON()) == 1) {
@@ -199,11 +218,12 @@ public class EditUserInfoActivity extends AppCompatActivity {
             super.onPostExecute(integer);
             progressDialog.dismiss();
             if (integer == 1) {
+                setResult(RESULT_OK);
                 finish();
             } else {
                 Toast.makeText(EditUserInfoActivity.this, R.string.error_connection, Toast.LENGTH_SHORT).show();
             }
         }
-    };
+    }
 
 }

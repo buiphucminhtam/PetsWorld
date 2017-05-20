@@ -1,6 +1,9 @@
 package com.minhtam.petsworld.Activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,6 +16,7 @@ import android.widget.GridView;
 import com.minhtam.petsworld.Adapter.GridViewAdapter;
 import com.minhtam.petsworld.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.SortedSet;
@@ -24,6 +28,9 @@ public class ImageActivity extends AppCompatActivity {
     private GridViewAdapter adapterImage;
     private ArrayList<String> listPath;
     private ArrayList<String> listSelected;
+
+    private final int CAMERA_REQUEST = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +73,8 @@ public class ImageActivity extends AppCompatActivity {
             PlacePostActivity.listImage = listSelected;
             finish();
         } else if (item.getItemId() == 1) {
-
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
         }
         return true;
     }
@@ -142,6 +150,32 @@ public class ImageActivity extends AppCompatActivity {
         }
 
         return resultIAV;
+    }
+
+        @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK){
+            if(data == null ) return;
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+
+            listPath.add(0,getRealPathFromURI(getImageUri(ImageActivity.this,bitmap)));
+            adapterImage.notifyDataSetChanged();
+        }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
     }
 
 

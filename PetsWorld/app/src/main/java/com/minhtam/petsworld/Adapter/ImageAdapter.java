@@ -1,7 +1,6 @@
 package com.minhtam.petsworld.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,9 +47,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                     notifyItemRangeChanged(position, listPickedImage.size());
                 }
             });
-            Picasso.with(context).load("file://" + listPickedImage.get(position)).config(Bitmap.Config.RGB_565).fit().centerCrop().placeholder(R.layout.progress_layout).into(holder.img);
+            Picasso.with(context).load("file://" + listPickedImage.get(position)).fit().placeholder(R.layout.progress_layout).into(holder.img);
         } else {
-            Picasso.with(context).load(listPickedImage.get(position)).config(Bitmap.Config.RGB_565).fit().centerCrop().placeholder(R.layout.progress_layout).into(holder.img);
+            Picasso.with(context).load(listPickedImage.get(position)).fit().placeholder(R.layout.progress_layout).into(holder.img);
         }
 
 

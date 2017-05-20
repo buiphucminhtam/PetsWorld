@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.minhtam.petsworld.Activity.MainActivity;
 import com.minhtam.petsworld.Activity.PlacePostActivity;
 import com.minhtam.petsworld.R;
+import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +27,7 @@ public class FindOwnersFragment extends Fragment {
     private LinearLayout layout_Post;
     private final String TAG = "FIND_OWNER";
 
-    private final int REQUEST_PICKIMAGE = 1;
+    private final int REQUEST_POST = 1;
 
 
     public FindOwnersFragment() {
@@ -45,14 +48,20 @@ public class FindOwnersFragment extends Fragment {
         imvFindOwner_userimage = (ImageView) v.findViewById(R.id.imvFindOwner_userimage);
         tvFindOwner_userPost = (TextView) v.findViewById(R.id.tvFindOwner_userPost);
         layout_Post = (LinearLayout) v.findViewById(R.id.layout_Post_FindOwner);
+
     }
 
     private void AddEvent() {
+
+        if (!MainActivity.userInfo.getUserimage().equals("None")) {
+            Picasso.with(getContext()).load(WebserviceAddress.WEB_ADDRESS + MainActivity.userInfo.getUserimage()).fit().into(imvFindOwner_userimage);
+        }
+
         layout_Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PlacePostActivity.class);
-                startActivityForResult(intent,REQUEST_PICKIMAGE);
+                startActivityForResult(intent,REQUEST_POST);
             }
         });
     }
@@ -60,7 +69,7 @@ public class FindOwnersFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PICKIMAGE && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == REQUEST_POST && resultCode == getActivity().RESULT_OK) {
 
         }
     }

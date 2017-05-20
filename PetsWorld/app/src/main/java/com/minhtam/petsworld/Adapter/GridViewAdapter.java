@@ -67,7 +67,7 @@ public class GridViewAdapter extends BaseAdapter {
             }
         });
 
-        Picasso.with(context).load("file://"+listImagePath.get(position)).fit().centerCrop().placeholder(android.R.drawable.progress_horizontal).into(holder.img);
+        Picasso.with(context).load("file://"+listImagePath.get(position)).fit().placeholder(android.R.drawable.progress_horizontal).into(holder.img);
         return convertView;
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:scrollbars="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,7 +27,6 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
 
-
     <android.support.design.widget.TextInputLayout
         android:padding="10dp"
         android:layout_width="match_parent"
@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#fff"
             android:gravity="top"
+            android:textSize="14sp"
             android:hint="@string/post_description"
             android:textColor="@color/text_msg_input"
             android:textColorHint="@color/title_gray" />
@@ -54,8 +55,9 @@
             android:id="@+id/edtPostRequirement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#fff"
+            android:backgroundTint="@color/white"
             android:gravity="top"
+            android:textSize="14sp"
             android:hint="@string/post_requirement"
             android:textColor="@color/text_msg_input"
             android:textColorHint="@color/title_gray" />
@@ -65,7 +67,7 @@
     <android.support.v7.widget.RecyclerView
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:id="@+id/rvPickedImage"
         android:scrollbars="horizontal">
     </android.support.v7.widget.RecyclerView>

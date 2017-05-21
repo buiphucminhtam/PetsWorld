@@ -34,6 +34,8 @@ public class PlacePostActivity extends AppCompatActivity {
 
     private final String TAG = "PlacePostActivity";
     private final int REQUEST_PETINFO = 1;
+    private final int REQUEST_PICKIMAGE = 2;
+    public static PetInfo petInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class PlacePostActivity extends AppCompatActivity {
         listImage = new ArrayList<>();
         imageAdapter = new ImageAdapter(this,listImage);
         rvPetImages.setAdapter(imageAdapter);
+
+        petInfo = new PetInfo();
     }
 
     private void AddEvent() {
@@ -71,7 +75,7 @@ public class PlacePostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(PlacePostActivity.this,ImageActivity.class);
-                startActivity(i);
+                startActivityForResult(i,REQUEST_PICKIMAGE);
             }
         });
     }
@@ -101,7 +105,11 @@ public class PlacePostActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PETINFO && resultCode == RESULT_OK) {
-            PetInfo petInfo = data.getParcelableExtra("petinfo");
+            tvPlacePostPetInfo.setBackgroundResource(R.color.body_background);
+        }
+        if (requestCode == REQUEST_PICKIMAGE && resultCode == RESULT_OK) {
+            imageAdapter = new ImageAdapter(PlacePostActivity.this,listImage);
+            rvPetImages.setAdapter(imageAdapter);
         }
     }
 

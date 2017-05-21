@@ -154,7 +154,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         if (alert != null) {
             alert.cancel();
         }
-        alert = Toast.makeText(this,"Không được bỏ trống",Toast.LENGTH_SHORT);
+        alert = Toast.makeText(this,R.string.error_input,Toast.LENGTH_SHORT);
         alert.show();
     }
 

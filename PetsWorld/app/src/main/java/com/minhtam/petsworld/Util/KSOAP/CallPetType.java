@@ -32,13 +32,8 @@ public class CallPetType {
         super();
     }
 
-    public String Get(int id) {
+    public String Get() {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_NAME_GET);
-        PropertyInfo pi=new PropertyInfo();
-        pi.setName("id");
-        pi.setValue(id);
-        pi.setType(Integer.class);
-        request.addProperty(pi);
 
         Log.d("request",request.toString());
 

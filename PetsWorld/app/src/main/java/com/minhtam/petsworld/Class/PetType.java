@@ -8,17 +8,19 @@ import com.google.gson.Gson;
 
 public class PetType {
     private int id;
-    private String name,datecreated;
+    private String typename,datecreated;
 
     public PetType() {
         super();
     }
 
-    public PetType(int id, String name, String datecreated) {
+    public PetType(int id, String name,String namechild, String datecreated) {
         this.id = id;
-        this.name = name;
+        this.typename = name;
         this.datecreated = datecreated;
     }
+
+
 
     public int getId() {
         return id;
@@ -28,12 +30,12 @@ public class PetType {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTypename() {
+        return typename;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTypename(String typename) {
+        this.typename = typename;
     }
 
     public String getDatecreated() {

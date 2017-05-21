@@ -12,69 +12,74 @@
         android:layout_height="wrap_content">
     </include>
 
-    <LinearLayout
-        android:padding="20dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:textColor="@color/text_msg_input"
-            android:textSize="20sp"
-            android:textAllCaps="true"
-            android:textAlignment="center"
-            android:text="@string/insertpetinfo_tittle"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content" />
-
-        <android.support.design.widget.TextInputLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.design.widget.TextInputEditText
-            android:textSize="15sp"
-            android:id="@+id/edtInsertPetInfoName"
-            android:hint="@string/pet_name"
+        <LinearLayout
+            android:padding="20dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvInsertPetInfo_PetType"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="5dp"
-            android:textSize="15sp"
-            android:text="@string/pet_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tvInsertPetInfo_Vacines"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="5dp"
-            android:textSize="15sp"
-            android:text="@string/pet_vacines"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/text_msg_input"
+                android:textSize="20sp"
+                android:textAllCaps="true"
+                android:textAlignment="center"
+                android:text="@string/insertpetinfo_tittle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
 
-        <ExpandableListView
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/exlvInsertPetInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ExpandableListView>
+            <android.support.design.widget.TextInputLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:textSize="15sp"
+                    android:id="@+id/edtInsertPetInfoName"
+                    android:hint="@string/pet_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <CheckBox
+                android:id="@+id/cbInsertPetInfo_Vacines"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:text="@string/pet_vacines"
+                android:textSize="15sp"
+                android:textColor="@color/text_msg_input"
+                />
+            <TextView
+                android:id="@+id/tvInsertPetInfo_PetType"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:textSize="15sp"
+                android:text="@string/pet_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/btnInsertPetInfoOK"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:text="@string/OK"
-            android:background="@drawable/roundedbutton_bluelight"
-            android:layout_width="100dp"
-            android:layout_height="50dp" />
-    </LinearLayout>
+            <ExpandableListView
+                android:scrollbars="vertical"
+                android:keepScreenOn="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/exlvInsertPetInfo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+            </ExpandableListView>
+
+
+            <Button
+                android:id="@+id/btnInsertPetInfoOK"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:text="@string/OK"
+                android:background="@drawable/roundedbutton_bluelight"
+                android:layout_width="100dp"
+                android:layout_height="50dp" />
+        </LinearLayout>
 
 
 </LinearLayout>

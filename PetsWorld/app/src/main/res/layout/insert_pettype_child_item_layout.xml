@@ -4,7 +4,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvInsertPetInfo_PetType_Header"
+        android:padding="20dp"
+        android:textColor="@color/text_msg_input"
+        android:textSize="15sp"
+        android:id="@+id/tvInsertPetInfo_PetType_Child"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView" />

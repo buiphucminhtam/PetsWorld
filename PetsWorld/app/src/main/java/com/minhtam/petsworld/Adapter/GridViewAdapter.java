@@ -45,7 +45,7 @@ public class GridViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
 
         if (convertView == null) {
             LayoutInflater inflater = context.getLayoutInflater();
@@ -55,27 +55,36 @@ public class GridViewAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        if (listSelectedItem.indexOf(listImagePath.get(position))>-1) {
+            holder.imgSelector.setImageResource(R.drawable.selected_image_shape);
+        }
 
-        holder.img.setOnClickListener(new View.OnClickListener() {
+
+        holder.imgSelector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (v.isSelected()) {
+                if (listSelectedItem.indexOf(listImagePath.get(position)) == -1) {
                     listSelectedItem.add(listImagePath.get(position));
+                    holder.imgSelector.setImageResource(R.drawable.selected_image_shape);
                 } else {
                     listSelectedItem.remove(listImagePath.get(position));
+                    holder.imgSelector.setImageResource(R.drawable.background_transparent);
                 }
             }
         });
+
 
         Picasso.with(context).load("file://"+listImagePath.get(position)).fit().placeholder(android.R.drawable.progress_horizontal).into(holder.img);
         return convertView;
     }
 
     private class ViewHolder {
-        ImageView img;
+        private ImageView img;
+        private ImageView imgSelector;
 
         public ViewHolder(View v) {
             img = (ImageView) v.findViewById(R.id.imvGalleryItem);
+            imgSelector = (ImageView) v.findViewById(R.id.imvGalleryItemSelector);
         }
     }
 }

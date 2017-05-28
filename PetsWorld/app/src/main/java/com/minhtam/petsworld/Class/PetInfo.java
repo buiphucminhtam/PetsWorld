@@ -10,14 +10,14 @@ import com.google.gson.Gson;
  */
 
 public class PetInfo implements Parcelable{
-    private int id,userid,typeid,vacine;
+    private int id,userid,typeid,vacines;
     private String name, datecreated;
 
     public PetInfo(int id, int userid, int typeid, int vacine, String name, String datecreated) {
         this.id = id;
         this.userid = userid;
         this.typeid = typeid;
-        this.vacine = vacine;
+        this.vacines = vacine;
         this.name = name;
         this.datecreated = datecreated;
     }
@@ -30,7 +30,7 @@ public class PetInfo implements Parcelable{
         id = in.readInt();
         userid = in.readInt();
         typeid = in.readInt();
-        vacine = in.readInt();
+        vacines = in.readInt();
         name = in.readString();
         datecreated = in.readString();
     }
@@ -72,11 +72,11 @@ public class PetInfo implements Parcelable{
     }
 
     public int getVacine() {
-        return vacine;
+        return vacines;
     }
 
     public void setVacine(int vacine) {
-        this.vacine = vacine;
+        this.vacines = vacine;
     }
 
     public String getName() {
@@ -110,7 +110,7 @@ public class PetInfo implements Parcelable{
         dest.writeInt(id);
         dest.writeInt(userid);
         dest.writeInt(typeid);
-        dest.writeInt(vacine);
+        dest.writeInt(vacines);
         dest.writeString(name);
         dest.writeString(datecreated);
     }

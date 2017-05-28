@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONArray jsonArray = new JSONArray(jsonUserInfo);
                 JSONObject jsonObject = new JSONObject(jsonArray.getString(0));
+                userInfo.setId(jsonObject.getString("id"));
                 userInfo.setUserimage(jsonObject.getString("userimage"));
                 userInfo.setAddress(jsonObject.getString("address"));
                 userInfo.setPhone(jsonObject.getString("phone"));

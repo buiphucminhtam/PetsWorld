@@ -1,16 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/body_background_gray"
     tools:context="com.minhtam.petsworld.Fragment.FindOwnersFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.v7.widget.FitWindowsLinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
         android:orientation="vertical">
         <LinearLayout
             android:id="@+id/layout_Post_FindOwner"
@@ -20,7 +19,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:layout_marginBottom="10dp"
-            android:background="@color/body_background"
+            android:background="@color/white"
 
             android:orientation="horizontal">
 
@@ -42,15 +41,12 @@
                 />
         </LinearLayout>
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/lvFindOwner_Post">
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-    </android.support.v7.widget.FitWindowsLinearLayout>\
+            android:layout_height="wrap_content"
+            android:id="@+id/rvFindOwner_Post">
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
 </FrameLayout>

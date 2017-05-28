@@ -1,12 +1,15 @@
 package com.minhtam.petsworld.Class;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.Gson;
 
 /**
  * Created by st on 5/9/2017.
  */
 
-public class FindOwner {
+public class FindOwner implements Parcelable {
     private int id,userid,petid;
     private String description,requirement,datecreated;
 
@@ -22,6 +25,27 @@ public class FindOwner {
         this.requirement = requirement;
         this.datecreated = datecreated;
     }
+
+    protected FindOwner(Parcel in) {
+        id = in.readInt();
+        userid = in.readInt();
+        petid = in.readInt();
+        description = in.readString();
+        requirement = in.readString();
+        datecreated = in.readString();
+    }
+
+    public static final Creator<FindOwner> CREATOR = new Creator<FindOwner>() {
+        @Override
+        public FindOwner createFromParcel(Parcel in) {
+            return new FindOwner(in);
+        }
+
+        @Override
+        public FindOwner[] newArray(int size) {
+            return new FindOwner[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -74,5 +98,20 @@ public class FindOwner {
     public String toJSON() {
         Gson gson = new Gson();
         return gson.toJson(this);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(userid);
+        dest.writeInt(petid);
+        dest.writeString(description);
+        dest.writeString(requirement);
+        dest.writeString(datecreated);
     }
 }

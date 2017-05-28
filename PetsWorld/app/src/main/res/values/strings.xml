@@ -34,4 +34,12 @@
     <string name="OK">Hoàn Tất</string>
     <string name="error_input">Không được bỏ trống</string>
     <string name="error_empty_pettype">Xin chọn loại vật nuôi</string>
+    <string name="upload_post">Đăng bài</string>
+    <string name="error_photo_numbers">Phải thêm ít nhất 1 hình thú nuôi</string>
+    <string name="error_not_insert_petinfo">Phải thêm thông tin thú nuôi</string>
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="old_passworld">Mật khẩu cũ</string>
+    <string name="new_passworld">Mật khẩu mới</string>
+    <string name="error_input_password">Mật khẩu không đúng</string>
+    <string name="changepassword_successed">Đổi mật khẩu thành công</string>
 </resources>

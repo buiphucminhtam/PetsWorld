@@ -124,6 +124,9 @@ public class LoginActivity extends Activity {
                     UserInfo userInfo = new UserInfo();
                     userInfo.setId(jsonObject.getString("id"));
                     userInfo.setFullname(jsonObject.getString("fullname"));
+                    userInfo.setUsername(username);
+                    userInfo.setPassword(password);
+                    Log.d(TAG,"userInfoJSON: "+userInfo.toJSON());
                     //start activity
                     Intent i = new Intent(LoginActivity.this,MainActivity.class);
                     i.putExtra("userInfo",userInfo);

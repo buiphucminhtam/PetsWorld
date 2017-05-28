@@ -2,26 +2,29 @@ package com.minhtam.petsworld.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.minhtam.petsworld.Class.Photo;
 import com.minhtam.petsworld.R;
+import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 /**
- * Created by st on 3/24/2017.
+ * Created by st on 5/23/2017.
  */
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder> {
-    private ArrayList<String> listPickedImage;
-    private Context context;
-    private boolean isClickToDelItem = true;
 
-    public ImageAdapter(Context context, ArrayList<String> listPickedImage) {
+public class AdapterListPhoto extends RecyclerView.Adapter<AdapterListPhoto.MyViewHolder> {
+    private ArrayList<Photo> listPickedImage;
+    private Context context;
+
+    public AdapterListPhoto(Context context, ArrayList<Photo> listPickedImage) {
         super();
         this.context = context;
         this.listPickedImage = listPickedImage;
@@ -37,19 +40,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ImageAdapter.MyViewHolder holder, final int position) {
-        if (isClickToDelItem) {
-            holder.img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listPickedImage.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, listPickedImage.size());
-                }
-            });
-            Picasso.with(context).load("file://" + listPickedImage.get(position)).fit().placeholder(R.drawable.progress_image).into(holder.img);
-        } else {
-            Picasso.with(context).load("file://" + listPickedImage.get(position)).fit().placeholder(R.drawable.progress_image).into(holder.img);
+    public void onBindViewHolder(AdapterListPhoto.MyViewHolder holder, final int position) {
+
+        if (listPickedImage.get(position).getUrl() != null) {
+            Log.d("URL",listPickedImage.get(position).getUrl());
+            Picasso.with(context).load(WebserviceAddress.WEB_ADDRESS+listPickedImage.get(position).getUrl()).fit().placeholder(R.drawable.progress_image).into(holder.img);
         }
     }
 
@@ -63,11 +58,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         return listPickedImage.size();
     }
 
-    public void TurnOffClickToDelItem() {
-        isClickToDelItem = false;
-    }
 
-    public void setListPickedImage(ArrayList<String> listImage) {
+    public void setListPickedImage(ArrayList<Photo> listImage) {
         this.listPickedImage = listImage;
     }
 

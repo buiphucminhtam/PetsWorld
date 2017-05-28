@@ -1,5 +1,6 @@
 package com.minhtam.petsworld.Activity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -65,6 +66,7 @@ public class InsertPetInfoActivity extends AppCompatActivity {
         btnInsertPetInfoOK      = (Button) findViewById(R.id.btnInsertPetInfoOK);
 
         petInfo = PlacePostActivity.petInfo;
+        petInfo.setUserid(Integer.parseInt(MainActivity.userInfo.getId()));
 
         listHeader = new ArrayList<>();
         listChild = new ArrayList<>();
@@ -141,7 +143,7 @@ public class InsertPetInfoActivity extends AppCompatActivity {
     }
 
     private class getListType extends AsyncTask<Void, Void, String> {
-        ProgressDialog progressDialog;
+        Dialog progressDialog;
 
         @Override
         protected void onPreExecute() {

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/title_gray"
+        android:text="@string/pet_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textSize="15sp"
+        android:text="Mina"
+        android:id="@+id/tvPetInfo_Petname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/title_gray"
+        android:text="@string/pet_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tvPetInfo_PetType"
+        android:textSize="15sp"
+        android:text="Chó Hàn Quốc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:enabled="false"
+        android:id="@+id/cbPetInfo_Vacine"
+        android:paddingTop="10dp"
+        android:textSize="15sp"
+        android:textColor="@color/text_msg_input"
+        android:text="@string/pet_vacines"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

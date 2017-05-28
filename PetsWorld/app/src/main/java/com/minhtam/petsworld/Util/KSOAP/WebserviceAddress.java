@@ -20,6 +20,7 @@ public class WebserviceAddress
     public  static final String OPERATION_GET_USERINFO = "GetUserInfo";
     public  static final String OPERATION_UPDATE_USERINFO  = "UpdateUserInfo";
     public  static final String OPERATION_UPDATE_USERIMAGE = "UploadUserImage";
+    public  static final String OPERATION_CHANGE_PASSWORD = "ChangePassword";
     //PET INFO
     public  static final String OPERATION_GET_PETINFO = "GetPetInfo";
     public  static final String OPERATION_INSERT_PETINFO = "InsertPetInfo";
@@ -37,4 +38,8 @@ public class WebserviceAddress
     public  static final String OPERATION_UPDATE_POST_FINDOWNER = "UpdatePostFindOwner";
     public  static final String OPERATION_DELETE_POST_FINDOWNER = "DeletePostFindOwner";
     public  static final String OPERATION_INSERT_POST_FINDOWNER = "InsertPostFindOwner";
+    //PHOTO
+    public  static final String OPERATION_INSERT_PETPHOTO = "UploadPetImage";
+    public  static final String OPERATION_GET_PETPHOTO = "GetPhotoById";
+
 }

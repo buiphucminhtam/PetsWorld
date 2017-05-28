@@ -7,42 +7,35 @@ import com.google.gson.Gson;
  */
 
 public class Photo {
-    private int id,userid,petid;
+    private String id,userid,petid;
     private String url,dateuploaded;
 
     public Photo() {
         super();
     }
 
-    public Photo(int id, int userid, int petid, String url, String dateuploaded) {
-        this.id = id;
-        this.userid = userid;
-        this.petid = petid;
-        this.url = url;
-        this.dateuploaded = dateuploaded;
-    }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
-    public int getPetid() {
+    public String getPetid() {
         return petid;
     }
 
-    public void setPetid(int petid) {
+    public void setPetid(String petid) {
         this.petid = petid;
     }
 

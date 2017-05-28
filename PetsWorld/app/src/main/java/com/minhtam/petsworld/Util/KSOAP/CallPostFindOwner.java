@@ -146,7 +146,7 @@ public class CallPostFindOwner {
         }
         return Integer.parseInt(response.toString());
     }
-    public int    InsertPostFindOwner(String jsonPost) {
+    public int InsertPostFindOwner(String jsonPost) {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_INSERT);
         PropertyInfo pi=new PropertyInfo();
         pi.setName("jsonPost");

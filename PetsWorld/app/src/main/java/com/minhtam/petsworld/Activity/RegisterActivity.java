@@ -1,6 +1,7 @@
 package com.minhtam.petsworld.Activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -54,7 +55,7 @@ public class RegisterActivity extends Activity {
                 password = edtPassword.getText().toString();
                 passwordConfirm = edtPasswordConfirm.getText().toString();
 
-                if (CheckInput(username, password, passwordConfirm)) {
+                if (CheckInputPassword(username, password, passwordConfirm)) {
                     new AsynctaskRegister().execute();
                 }
             }
@@ -78,7 +79,7 @@ public class RegisterActivity extends Activity {
 
     //Call register
     private class AsynctaskRegister extends AsyncTask<Void, Void, String> {
-        ProgressDialog progressDialog;
+        Dialog progressDialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -119,7 +120,7 @@ public class RegisterActivity extends Activity {
         }
     }
 
-    private boolean CheckInput(String username,String password,String passwordConfirm) {
+    private boolean CheckInputPassword(String username,String password,String passwordConfirm) {
         //Check length first (>6 char for username and password)
         if (username.length() > 6) {
             if (password.length() > 6) {

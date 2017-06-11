@@ -17,6 +17,7 @@ public class CallPostFindOwner {
     public  final String OPERATION_GET_MAXID    = WebserviceAddress.OPERATION_GET_POST_FINDOWNER_MAXID;
     public  final String OPERATION_GET_OLDER    = WebserviceAddress.OPERATION_GET_POST_FINDOWNER_OLDER;
     public  final String OPERATION_GET_NEWEST   = WebserviceAddress.OPERATION_GET_POST_FINDOWNER_NEWEST;
+    public  final String OPERATION_GET_BYUSERID   = WebserviceAddress.OPERATION_GET_POST_FINDOWNER_BYUSERID;
     public  final String OPERATION_INSERT       = WebserviceAddress.OPERATION_INSERT_POST_FINDOWNER;
     public  final String OPERATION_UPDATE       = WebserviceAddress.OPERATION_UPDATE_POST_FINDOWNER;
     public  final String OPERATION_DELETE       = WebserviceAddress.OPERATION_DELETE_POST_FINDOWNER;
@@ -28,6 +29,7 @@ public class CallPostFindOwner {
     public  final String SOAP_ACTION_GETMAXID    = WSDL_TARGET_NAMESPACE +   OPERATION_GET_MAXID;
     public  final String SOAP_ACTION_GETOLDER    = WSDL_TARGET_NAMESPACE +   OPERATION_GET_OLDER;
     public  final String SOAP_ACTION_GETNEWEST   = WSDL_TARGET_NAMESPACE +   OPERATION_GET_NEWEST;
+    public  final String SOAP_ACTION_GETBYUSERID   = WSDL_TARGET_NAMESPACE +   OPERATION_GET_BYUSERID;
     public  final String SOAP_ACTION_INSERT      = WSDL_TARGET_NAMESPACE +   OPERATION_INSERT;
     public  final String SOAP_ACTION_UPDATE      = WSDL_TARGET_NAMESPACE +   OPERATION_UPDATE;
     public  final String SOAP_ACTION_DELETE      = WSDL_TARGET_NAMESPACE +   OPERATION_DELETE;
@@ -146,7 +148,7 @@ public class CallPostFindOwner {
         }
         return Integer.parseInt(response.toString());
     }
-    public int InsertPostFindOwner(String jsonPost) {
+    public int    InsertPostFindOwner(String jsonPost) {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_INSERT);
         PropertyInfo pi=new PropertyInfo();
         pi.setName("jsonPost");
@@ -201,5 +203,34 @@ public class CallPostFindOwner {
             response=exception.toString();
         }
         return Integer.parseInt(response.toString());
+    }
+
+    public String GetPostFindOwnerByUserId(int userId) {
+        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_GET_BYUSERID);
+        PropertyInfo pi=new PropertyInfo();
+        pi.setName("userId");
+        pi.setValue(userId);
+        pi.setType(Integer.class);
+        request.addProperty(pi);
+        Log.d("request",request.toString());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);
+        envelope.dotNet = true;
+
+        envelope.setOutputSoapObject(request);
+
+        HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
+        Object response=null;
+        try
+        {
+            httpTransport.call(SOAP_ACTION_GETBYUSERID, envelope);
+            response = envelope.getResponse();
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
     }
 }

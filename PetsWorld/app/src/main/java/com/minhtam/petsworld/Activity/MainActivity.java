@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private MenuFragmentPageAdapter adapter;
 
     public static UserInfo userInfo;
     private int[] tabIcons ={R.drawable.ic_menu,R.drawable.ic_pets,R.drawable.ic_person_pin_circle,R.drawable.ic_account_box};
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        MenuFragmentPageAdapter adapter = new MenuFragmentPageAdapter(getSupportFragmentManager());
+        adapter = new MenuFragmentPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new FindOwnersFragment(),"Tìm người nuôi");
         adapter.addFragment(new FindPetsFragment(),"Tìm thú nuôi");
         adapter.addFragment(new UserInformationFragment(),"Trang cá nhân");
@@ -137,5 +138,11 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            adapter.notifyDataSetChanged();
+            setupTabIcons();
+        }
     }
 }

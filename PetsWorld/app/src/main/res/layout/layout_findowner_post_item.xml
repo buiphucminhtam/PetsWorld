@@ -29,10 +29,11 @@
             android:layout_height="wrap_content"
             android:text="09-06-1995"
             android:textColor="@color/text_msg_input"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
         <include android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/layout_petinfo_layout"/>
+
         <ImageView
             android:id="@+id/imvFindOwnerItem_bigimage"
             android:layout_width="match_parent"

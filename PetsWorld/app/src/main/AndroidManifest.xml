@@ -3,8 +3,8 @@
     package="com.minhtam.petsworld">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -31,9 +31,16 @@
         <activity
             android:name=".Activity.RegisterActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".Activity.EditUserInfoActivity" android:launchMode="singleInstance"/>
-        <activity android:name=".Activity.ImageActivity" android:launchMode="singleInstance"/>
-        <activity android:name=".Activity.InsertPetInfoActivity" android:launchMode="singleInstance"></activity>
+        <activity
+            android:name=".Activity.EditUserInfoActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".Activity.ImageActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".Activity.InsertPetInfoActivity"
+            android:launchMode="singleInstance" />
+        <activity android:name=".Activity.FindOwnerItemDetailActivity"></activity>
     </application>
 
 </manifest>

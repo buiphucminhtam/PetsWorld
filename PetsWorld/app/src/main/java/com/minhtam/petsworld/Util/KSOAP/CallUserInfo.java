@@ -85,7 +85,7 @@ public class CallUserInfo {
         return Integer.parseInt(response.toString());
     }
 
-    public String UpdateUserImage(String userImageBase64, int userid,String url) {
+    public String UpdateUserImage(String userImageBase64, int userid, String url) {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, OPERATION_NAME_UPDATE_USERIMAGE);
         PropertyInfo pi = new PropertyInfo();
         pi.setName("byteArray");

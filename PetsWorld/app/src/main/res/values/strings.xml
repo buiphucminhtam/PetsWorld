@@ -42,4 +42,12 @@
     <string name="new_passworld">Mật khẩu mới</string>
     <string name="error_input_password">Mật khẩu không đúng</string>
     <string name="changepassword_successed">Đổi mật khẩu thành công</string>
+    <string name="report">Gửi báo cáo bài đăng</string>
+    <string name="contact">Xem thông tin liên lạc</string>
+    <string name="pet_vaccinedate">Ngày tiêm chủng</string>
+    <string name="findowner">Tìm người nuôi</string>
+    <string name="findpet">Tìm thú nuôi</string>
+    <string name="findpetlost">Tìm thú nuôi thất lạc</string>
+    <string name="delete">Xóa</string>
+    <string name="update_post">Chỉnh sửa</string>
 </resources>

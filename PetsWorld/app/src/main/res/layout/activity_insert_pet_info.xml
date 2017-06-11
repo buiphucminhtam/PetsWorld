@@ -41,16 +41,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
-            <CheckBox
-                android:id="@+id/cbInsertPetInfo_Vacines"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="5dp"
-                android:text="@string/pet_vacines"
-                android:textSize="15sp"
-                android:textColor="@color/text_msg_input"
-                />
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:layout_weight="1"
+                    android:id="@+id/cbInsertPetInfo_Vacines"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/pet_vacines"
+                    android:textSize="15sp"
+                    android:textColor="@color/text_msg_input"
+                    />
+                <Button
+                    android:visibility="invisible"
+                    android:id="@+id/btnInsertPetInfo_VaccineDate"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    android:background="@drawable/roundedbutton"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/pet_vaccinedate"
+                    android:textSize="15sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tvInsertPetInfo_PetType"
                 android:layout_marginTop="10dp"

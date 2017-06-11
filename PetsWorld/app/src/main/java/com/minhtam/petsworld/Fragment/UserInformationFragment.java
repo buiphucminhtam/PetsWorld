@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.minhtam.petsworld.Activity.EditUserInfoActivity;
 import com.minhtam.petsworld.Activity.MainActivity;
+import com.minhtam.petsworld.LayoutManager.FindOwnerPostLayoutManager;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.CallUserInfo;
 import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
@@ -33,11 +34,16 @@ import com.squareup.picasso.Picasso;
 public class UserInformationFragment extends Fragment {
 
 
-
     private ImageView imvUserImage;
     private TextView tvUserName,tvUserAddress,tvUserPhonenumbers;
     private Button btnUserInfor_ChangePassword;
     private View v;
+
+    private ViewGroup mPostLayout;
+    private View mFindOwnerPostLayout;
+    private FindOwnerPostLayoutManager findOwnerPostLayoutManager;
+    private TextView tvUserInformation_FindOwnerPost,tvUserInformation_FindPetPost,tvUserInformation_FindPetLostPost;
+
     private final int EDIT_USERINFO = 1;
 
     private Dialog dialogChangePassword;
@@ -61,11 +67,16 @@ public class UserInformationFragment extends Fragment {
     }
 
     private void AddControl() {
-        imvUserImage                = (ImageView) v.findViewById(R.id.imgUserImage);
-        tvUserName                  = (TextView) v.findViewById(R.id.tvUserName);
-        tvUserAddress               = (TextView) v.findViewById(R.id.tvUserAddress);
-        tvUserPhonenumbers          = (TextView) v.findViewById(R.id.tvPhoneNumbers);
+        imvUserImage = (ImageView) v.findViewById(R.id.imgUserImage);
+        tvUserName = (TextView) v.findViewById(R.id.tvUserName);
+        tvUserAddress = (TextView) v.findViewById(R.id.tvUserAddress);
+        tvUserPhonenumbers = (TextView) v.findViewById(R.id.tvPhoneNumbers);
         btnUserInfor_ChangePassword = (Button) v.findViewById(R.id.btnUserInfor_ChangePassword);
+        mPostLayout = (ViewGroup) v.findViewById(R.id.layoutListPost);
+
+        tvUserInformation_FindOwnerPost = (TextView) v.findViewById(R.id.tvUserInformation_FindOwnerPost);
+        tvUserInformation_FindPetPost = (TextView) v.findViewById(R.id.tvUserInformation_FindPetPost);
+        tvUserInformation_FindPetLostPost = (TextView) v.findViewById(R.id.tvUserInformation_FindPetLostPost);
 
         updateUserInfo();
     }
@@ -77,20 +88,31 @@ public class UserInformationFragment extends Fragment {
                 initDialog();
             }
         });
+
+        //Event for texview post
+        tvUserInformation_FindOwnerPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (findOwnerPostLayoutManager == null) {
+                    initFindOwnerPostLayout();
+                }
+                changeViewPost(mFindOwnerPostLayout);
+            }
+        });
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MenuItem item = menu.add(1,1,1,R.string.edit);
+        MenuItem item = menu.add(1, 1, 1, R.string.edit);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == 1) {
-            Intent i = new Intent(getActivity(),EditUserInfoActivity.class);
-            startActivityForResult(i,EDIT_USERINFO);
+            Intent i = new Intent(getActivity(), EditUserInfoActivity.class);
+            startActivityForResult(i, EDIT_USERINFO);
         }
         return true;
     }
@@ -105,9 +127,10 @@ public class UserInformationFragment extends Fragment {
     }
 
     private void updateUserInfo() {
-        if (!MainActivity.userInfo.getUserimage().equals("None")) {
-            Picasso.with(getContext()).load(WebserviceAddress.WEB_ADDRESS+MainActivity.userInfo.getUserimage()).fit().into(imvUserImage);
-        }
+        if (MainActivity.userInfo.getUserimage() != null)
+            if (!MainActivity.userInfo.getUserimage().equals("None")) {
+                Picasso.with(getContext()).load(WebserviceAddress.WEB_ADDRESS + MainActivity.userInfo.getUserimage()).fit().into(imvUserImage);
+            }
         tvUserName.setText(MainActivity.userInfo.getFullname());
         tvUserAddress.setText(MainActivity.userInfo.getAddress());
         tvUserPhonenumbers.setText(MainActivity.userInfo.getPhone());
@@ -116,14 +139,15 @@ public class UserInformationFragment extends Fragment {
     private EditText edtOldPassword;
     private EditText edtNewPassword;
     private EditText edtNewPasswordConfirm;
+
     private void initDialog() {
         dialogChangePassword = new Dialog(getContext());
         dialogChangePassword.setContentView(R.layout.layout_change_password);
         dialogChangePassword.setTitle(R.string.change_password);
-        edtOldPassword         = (EditText) dialogChangePassword.findViewById(R.id.edtChangePassword_OldPassworld);
-        edtNewPassword         = (EditText) dialogChangePassword.findViewById(R.id.edtChangePassword_NewPassworld);
-        edtNewPasswordConfirm  = (EditText) dialogChangePassword.findViewById(R.id.edtRegisterPasswordConfirm);
-        Button btnOK                    = (Button) dialogChangePassword.findViewById(R.id.btnChangePassworldOK);
+        edtOldPassword = (EditText) dialogChangePassword.findViewById(R.id.edtChangePassword_OldPassworld);
+        edtNewPassword = (EditText) dialogChangePassword.findViewById(R.id.edtChangePassword_NewPassworld);
+        edtNewPasswordConfirm = (EditText) dialogChangePassword.findViewById(R.id.edtChangePassword_NewPassworld_Confirm);
+        Button btnOK = (Button) dialogChangePassword.findViewById(R.id.btnChangePassworldOK);
 
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,22 +161,32 @@ public class UserInformationFragment extends Fragment {
         dialogChangePassword.show();
     }
 
+    private void initFindOwnerPostLayout() {
+        mFindOwnerPostLayout = LayoutInflater.from(getContext()).inflate(R.layout.layout_userinformation_findowner_post,null);
+        findOwnerPostLayoutManager = new FindOwnerPostLayoutManager(getContext(), mFindOwnerPostLayout);
+    }
 
-    private boolean CheckInputPassword(String oldpassword,String password,String passwordConfirm) {
+    private void changeViewPost(View v) {
+        mPostLayout.removeAllViews();
+        mPostLayout.addView(v);
+    }
+
+
+    private boolean CheckInputPassword(String oldpassword, String password, String passwordConfirm) {
         if (!oldpassword.equals(MainActivity.userInfo.getPassword())) {
             Toast.makeText(getActivity(), R.string.error_input_password, Toast.LENGTH_SHORT).show();
             return false;
         }
 
-            if (password.length() > 6) {
-                if (passwordConfirm.equals(password)) {
-                    return true;
-                } else {
-                    Toast.makeText(getActivity(), R.string.error_password_notequal_register, Toast.LENGTH_SHORT).show();
-                }
+        if (password.length() > 6) {
+            if (passwordConfirm.equals(password)) {
+                return true;
             } else {
-                Toast.makeText(getActivity(), R.string.error_length_input_register, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.error_password_notequal_register, Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(getActivity(), R.string.error_length_input_register, Toast.LENGTH_SHORT).show();
+        }
 
         return false;
     }
@@ -161,6 +195,7 @@ public class UserInformationFragment extends Fragment {
     private class AsynctaskChangePassword extends AsyncTask<Void, Void, Integer> {
         Dialog progressDialog;
         String password;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -169,7 +204,7 @@ public class UserInformationFragment extends Fragment {
             progressDialog.show();
             progressDialog.setContentView(R.layout.progress_layout);
             progressDialog.getWindow().setBackgroundDrawableResource(R.drawable.background_transparent);
-            progressDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.MATCH_PARENT);
+            progressDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
             password = edtNewPassword.getText().toString();
         }
 
@@ -181,15 +216,16 @@ public class UserInformationFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Integer s) {
-            progressDialog.dismiss();
             if (s == 1) {
+                progressDialog.dismiss();
                 Toast.makeText(getActivity(), R.string.changepassword_successed, Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
             } else {
-                Toast.makeText(getActivity(), R.string.error_connection, Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
+                Toast.makeText(getActivity(), R.string.error_connection, Toast.LENGTH_SHORT).show();
             }
         }
     }
+
+
 
 }

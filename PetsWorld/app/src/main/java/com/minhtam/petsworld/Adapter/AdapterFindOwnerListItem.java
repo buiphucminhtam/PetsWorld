@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.minhtam.petsworld.Class.Photo;
 import com.minhtam.petsworld.Model.FindOwnerPost;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
@@ -25,11 +27,20 @@ import java.util.ArrayList;
 public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOwnerListItem.ViewHolder> {
     private Context mContext;
     private ArrayList<FindOwnerPost> listFindOwnerPost;
+    OnItemClickListener onItemClickListener;
 
     public AdapterFindOwnerListItem(Context context, ArrayList<FindOwnerPost> listFindOwnerPost) {
         super();
         this.mContext = context;
         this.listFindOwnerPost = listFindOwnerPost;
+    }
+
+    public interface OnItemClickListener{
+        public void OnItemClickListener(View view, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -40,8 +51,11 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         FindOwnerPost findOwnerPost = listFindOwnerPost.get(position);
+        if (findOwnerPost.getListPhoto() == null) {
+            findOwnerPost.setListPhoto(new ArrayList<Photo>());
+        }
 
         holder.adaptetListPhoto = new AdapterListPhoto(mContext,findOwnerPost.getListPhoto());
         holder.linearLayoutManager = new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
@@ -59,6 +73,8 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
 
         if (findOwnerPost.getVaccine().equals("true")) {
             holder.cbPetInfo_Vacine.setChecked(true);
+            holder.btnPetInfo_VaccineDate.setVisibility(View.VISIBLE);
+            holder.btnPetInfo_VaccineDate.setText(findOwnerPost.getVaccinedate());
         }
 
         if (findOwnerPost.getListPhoto().size() == 1) {
@@ -68,6 +84,7 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
         } else {
             holder.imvFindOwnerItem_bigimage.setVisibility(View.GONE);
         }
+
     }
 
 
@@ -82,6 +99,7 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
         TextView            tvPetInfo_Petname;
         TextView            tvPetInfo_PetType;
         CheckBox            cbPetInfo_Vacine;
+        Button              btnPetInfo_VaccineDate;
         ImageView           imvFindOwnerItem_bigimage;
         RecyclerView        rvFindOwnerItem_ListImage;
         AdapterListPhoto    adaptetListPhoto;
@@ -94,8 +112,19 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
             tvPetInfo_Petname         = (TextView) itemView.findViewById(R.id.tvPetInfo_Petname);
             tvPetInfo_PetType         = (TextView) itemView.findViewById(R.id.tvPetInfo_PetType);
             cbPetInfo_Vacine          = (CheckBox) itemView.findViewById(R.id.cbPetInfo_Vacine);
+            btnPetInfo_VaccineDate    = (Button) itemView.findViewById(R.id.btnPetInfo_VaccineDate);
             imvFindOwnerItem_bigimage = (ImageView) itemView.findViewById(R.id.imvFindOwnerItem_bigimage);
             rvFindOwnerItem_ListImage = (RecyclerView) itemView.findViewById(R.id.rvFindOwnerItem_ListImage);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.OnItemClickListener(v,getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 }

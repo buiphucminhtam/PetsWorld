@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="10dp"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,6 +18,7 @@
     <TextView
         android:textSize="15sp"
         android:text="Mina"
+        android:textColor="@color/text_msg_input"
         android:id="@+id/tvPetInfo_Petname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -33,15 +35,40 @@
         android:id="@+id/tvPetInfo_PetType"
         android:textSize="15sp"
         android:text="Chó Hàn Quốc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <CheckBox
-        android:enabled="false"
-        android:id="@+id/cbPetInfo_Vacine"
-        android:paddingTop="10dp"
-        android:textSize="15sp"
         android:textColor="@color/text_msg_input"
-        android:text="@string/pet_vacines"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:layout_weight="1"
+            android:clickable="false"
+            android:id="@+id/cbPetInfo_Vacine"
+            android:paddingTop="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/text_msg_input"
+            android:text="@string/pet_vacines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:visibility="invisible"
+            android:layout_weight="1"
+            android:id="@+id/btnPetInfo_VaccineDate"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@drawable/roundedbutton"
+            android:text="@string/pet_vaccinedate"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            />
+    </LinearLayout>
+
+
+
 </LinearLayout>

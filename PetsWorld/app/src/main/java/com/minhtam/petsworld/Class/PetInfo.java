@@ -10,16 +10,16 @@ import com.google.gson.Gson;
  */
 
 public class PetInfo implements Parcelable{
-    private int id,userid,typeid,vacines;
-    private String name, datecreated;
+    private int id,userid,typeid,vaccine;
+    private String name, vaccinedate;
 
-    public PetInfo(int id, int userid, int typeid, int vacine, String name, String datecreated) {
+    public PetInfo(int id, int userid, int typeid, int vacine, String name, String vaccinedate) {
         this.id = id;
         this.userid = userid;
         this.typeid = typeid;
-        this.vacines = vacine;
+        this.vaccine = vacine;
         this.name = name;
-        this.datecreated = datecreated;
+        this.vaccinedate = vaccinedate;
     }
 
     public PetInfo() {
@@ -30,9 +30,9 @@ public class PetInfo implements Parcelable{
         id = in.readInt();
         userid = in.readInt();
         typeid = in.readInt();
-        vacines = in.readInt();
+        vaccine = in.readInt();
         name = in.readString();
-        datecreated = in.readString();
+        vaccinedate = in.readString();
     }
 
     public static final Creator<PetInfo> CREATOR = new Creator<PetInfo>() {
@@ -72,11 +72,11 @@ public class PetInfo implements Parcelable{
     }
 
     public int getVacine() {
-        return vacines;
+        return vaccine;
     }
 
     public void setVacine(int vacine) {
-        this.vacines = vacine;
+        this.vaccine = vacine;
     }
 
     public String getName() {
@@ -87,12 +87,12 @@ public class PetInfo implements Parcelable{
         this.name = name;
     }
 
-    public String getDatecreated() {
-        return datecreated;
+    public String getVaccinedate() {
+        return vaccinedate;
     }
 
-    public void setDatecreated(String datecreated) {
-        this.datecreated = datecreated;
+    public void setVaccinedate(String vaccinedate) {
+        this.vaccinedate = vaccinedate;
     }
 
     public String toJSON() {
@@ -110,8 +110,8 @@ public class PetInfo implements Parcelable{
         dest.writeInt(id);
         dest.writeInt(userid);
         dest.writeInt(typeid);
-        dest.writeInt(vacines);
+        dest.writeInt(vaccine);
         dest.writeString(name);
-        dest.writeString(datecreated);
+        dest.writeString(vaccinedate);
     }
 }

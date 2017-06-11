@@ -58,17 +58,52 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/tvUserInfoEmpyPost"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:text="Chưa có bài viết nào" />
             </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:background="@color/com_facebook_button_send_background_color_pressed"
+                android:divider="@color/title_gray"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvUserInformation_FindOwnerPost"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:text="@string/findowner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvUserInformation_FindPetPost"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:text="@string/findpet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvUserInformation_FindPetLostPost"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:text="@string/findpetlost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/layoutListPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

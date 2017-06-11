@@ -60,6 +60,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Chỉnh sửa thông tin cá nhân");
     }
 
     private void AddControl() {
@@ -200,7 +201,13 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
         @Override
         protected Integer doInBackground(Void... params) {
-            String userimage = updateUserImage();
+            String userimage;
+            if (imagePicked != null) {
+                userimage = updateUserImage();
+            } else {
+                userimage = MainActivity.userInfo.getUserimage();
+            }
+
             Log.d(TAG,"userimage: "+ userimage);
             if (!userimage.equals("0")) {
                 MainActivity.userInfo.setUserimage(userimage);

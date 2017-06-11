@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.minhtam.petsworld.R;
+import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
             });
             Picasso.with(context).load("file://" + listPickedImage.get(position)).fit().placeholder(R.drawable.progress_image).into(holder.img);
         } else {
-            Picasso.with(context).load("file://" + listPickedImage.get(position)).fit().placeholder(R.drawable.progress_image).into(holder.img);
+            Picasso.with(context).load(WebserviceAddress.WEB_ADDRESS + listPickedImage.get(position)).fit().placeholder(R.drawable.progress_image).into(holder.img);
         }
     }
 

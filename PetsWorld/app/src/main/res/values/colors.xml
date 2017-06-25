@@ -11,16 +11,19 @@
     <color name="bg_msg_from">#e5e7eb</color>
     <color name="msg_border_color">#a1a1a1</color>
     <color name="bg_btn_join">#1e6258</color>
-    <color name="text_msg_input">#252525</color>
+    <color name="text_msg_input">#383838</color>
     <color name="lblFromName">#777777</color>
-    <color name="colorPrimary">#125688</color>
-    <color name="colorPrimaryDark">#10466e</color>
+    <color name="colorPrimary">#2b82d5</color>
+    <color name="colorPrimaryDark">#2b82d5</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#c8e8ff</color>
     <color name="selector">#cc2f14df</color>
-    <color name="body_background_gray">#d2d2d2</color>
-    <color name="boderButtonBlue">#1c14e9</color>
+    <color name="body_background_gray">#e2e0e0</color>
+    <color name="background_group">#f3fff3</color>
+    <color name="boderButtonGreen">#5cc15c</color>
+    <color name="boderButtonGreenLight">#43c01f</color>
     <color name="transparent">#00ffffff</color>
+    <color name="usernamecolor">#2d5b9f</color>
 </resources>

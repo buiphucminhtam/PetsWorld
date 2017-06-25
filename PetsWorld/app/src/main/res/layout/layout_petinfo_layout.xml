@@ -7,49 +7,58 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:paddingTop="10dp"
-        android:paddingBottom="5dp"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="@color/title_gray"
-        android:text="@string/pet_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingTop="10dp"
+        android:text="@string/pet_name"
+        android:textColor="@color/title_gray"
+        android:textSize="16sp"
+        android:textStyle="bold" />
     <TextView
         android:textSize="15sp"
         android:text="Mina"
+        android:padding="5dp"
         android:textColor="@color/text_msg_input"
         android:id="@+id/tvPetInfo_Petname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <TextView
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="@color/title_gray"
-        android:text="@string/pet_type"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/pet_type"
+        android:textColor="@color/title_gray"
+        android:textSize="16sp"
+        android:textStyle="bold" />
     <TextView
         android:id="@+id/tvPetInfo_PetType"
         android:textSize="15sp"
+        android:padding="5dp"
         android:text="Chó Hàn Quốc"
         android:textColor="@color/text_msg_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <LinearLayout
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <CheckBox
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:padding="5dp"
             android:layout_weight="1"
             android:clickable="false"
             android:id="@+id/cbPetInfo_Vacine"
             android:paddingTop="10dp"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:textColor="@color/text_msg_input"
             android:text="@string/pet_vacines"
             android:layout_width="match_parent"
@@ -60,12 +69,12 @@
             android:layout_weight="1"
             android:id="@+id/btnPetInfo_VaccineDate"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@drawable/roundedbutton"
+            android:layout_height="30dp"
+            android:background="@drawable/roundedbutton_green_light"
             android:text="@string/pet_vaccinedate"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="15sp"
+            android:textSize="18sp"
             />
     </LinearLayout>
 

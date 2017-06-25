@@ -6,51 +6,59 @@
     tools:context="com.minhtam.petsworld.Fragment.FindPetsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainerFindPet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_vertical"
-            android:background="@color/body_background"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imvFindPets_userimage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
-            <TextView
-                android:id="@+id/tvFindPets_userPost"
-                android:text="Đăng tin để tìm vật nuôi"
+            <LinearLayout
+                android:id="@+id/layout_Post_FindPets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/background_group"
                 android:gravity="center_vertical"
-                android:textColorHint="@color/text_msg_input"
-                />
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:padding="7dp">
+
+                <ImageView
+                    android:id="@+id/imvFindPets_userimage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/tvFindPets_userPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:hint="Đăng tin để tìm vật nuôi"
+                    android:paddingLeft="10dp"
+                    android:textSize="16sp"
+                    android:textColorHint="@color/text_msg_input" />
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/lvFindPets_Post">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent">
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvFindPets_Post"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>\
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 
 

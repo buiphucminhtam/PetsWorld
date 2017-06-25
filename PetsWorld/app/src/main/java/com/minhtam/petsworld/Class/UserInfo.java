@@ -10,7 +10,7 @@ import com.google.gson.Gson;
  */
 
 public class UserInfo implements Parcelable {
-    String id,username,password,fullname,phone,address,datecreated,userimage;
+    String id,username,password,fullname,phone,address,datecreated,userimage,state;
 
     public UserInfo() {
     }
@@ -25,6 +25,7 @@ public class UserInfo implements Parcelable {
         address = in.readString();
         datecreated = in.readString();
         userimage = in.readString();
+        state = in.readString();
     }
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
@@ -103,6 +104,14 @@ public class UserInfo implements Parcelable {
         this.userimage = userimage;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public String toJSON() {
         Gson gson = new Gson();
         return gson.toJson(this);
@@ -123,5 +132,6 @@ public class UserInfo implements Parcelable {
         dest.writeString(address);
         dest.writeString(datecreated);
         dest.writeString(userimage);
+        dest.writeString(state);
     }
 }

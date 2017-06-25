@@ -108,18 +108,20 @@ public class FindOwnerPostLayoutManager {
                         post.setListPhoto(listTemp);
                     }
                     listFindOwnerPost.addAll(0, posts);
-                    return result;
+                    return "OK";
+                } else {
+                    return "Chưa có bài viết nào";
                 }
             }
-            return "error";
+            return "Error";
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if (!s.equals("error")) {
+            if (s.equals("OK")) {
                 rvFindOwnerPost.setAdapter(adapter);
             } else {
-                Toast.makeText(mContext, "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,s, Toast.LENGTH_SHORT).show();
             }
 
             progressDialog.dismiss();

@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.minhtam.petsworld.Activity.EditUserInfoActivity;
 import com.minhtam.petsworld.Activity.MainActivity;
 import com.minhtam.petsworld.LayoutManager.FindOwnerPostLayoutManager;
+import com.minhtam.petsworld.LayoutManager.FindPetPostLayoutManager;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.CallUserInfo;
 import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
@@ -40,9 +41,14 @@ public class UserInformationFragment extends Fragment {
     private View v;
 
     private ViewGroup mPostLayout;
+    //Find Owner User Post
     private View mFindOwnerPostLayout;
     private FindOwnerPostLayoutManager findOwnerPostLayoutManager;
-    private TextView tvUserInformation_FindOwnerPost,tvUserInformation_FindPetPost,tvUserInformation_FindPetLostPost;
+    //Find Pet User Post
+    private View mFindPetPostLayout;
+    private FindPetPostLayoutManager findPetPostLayoutManager;
+
+    private TextView tvUserInformation_FindOwnerPost,tvUserInformation_FindPetPost;
 
     private final int EDIT_USERINFO = 1;
 
@@ -76,7 +82,6 @@ public class UserInformationFragment extends Fragment {
 
         tvUserInformation_FindOwnerPost = (TextView) v.findViewById(R.id.tvUserInformation_FindOwnerPost);
         tvUserInformation_FindPetPost = (TextView) v.findViewById(R.id.tvUserInformation_FindPetPost);
-        tvUserInformation_FindPetLostPost = (TextView) v.findViewById(R.id.tvUserInformation_FindPetLostPost);
 
         updateUserInfo();
     }
@@ -97,6 +102,20 @@ public class UserInformationFragment extends Fragment {
                     initFindOwnerPostLayout();
                 }
                 changeViewPost(mFindOwnerPostLayout);
+                tvUserInformation_FindOwnerPost.setBackgroundResource(R.color.selector);
+                tvUserInformation_FindPetPost.setBackgroundResource(R.color.colorPrimary);
+            }
+        });
+
+        tvUserInformation_FindPetPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (findPetPostLayoutManager == null) {
+                    initFindPetPostLayout();
+                }
+                changeViewPost(mFindPetPostLayout);
+                tvUserInformation_FindOwnerPost.setBackgroundResource(R.color.colorPrimary);
+                tvUserInformation_FindPetPost.setBackgroundResource(R.color.selector);
             }
         });
     }
@@ -164,11 +183,28 @@ public class UserInformationFragment extends Fragment {
     private void initFindOwnerPostLayout() {
         mFindOwnerPostLayout = LayoutInflater.from(getContext()).inflate(R.layout.layout_userinformation_findowner_post,null);
         findOwnerPostLayoutManager = new FindOwnerPostLayoutManager(getContext(), mFindOwnerPostLayout);
+        mPostLayout.addView(mFindOwnerPostLayout);
+        mFindOwnerPostLayout.setVisibility(View.GONE);
+    }
+
+    private void initFindPetPostLayout() {
+        mFindPetPostLayout = LayoutInflater.from(getContext()).inflate(R.layout.layout_userinformation_findpet_post,null);
+        findPetPostLayoutManager = new FindPetPostLayoutManager(getContext(), mFindPetPostLayout);
+        mPostLayout.addView(mFindPetPostLayout);
+        mFindPetPostLayout.setVisibility(View.GONE);
     }
 
     private void changeViewPost(View v) {
-        mPostLayout.removeAllViews();
-        mPostLayout.addView(v);
+//        mPostLayout.removeAllViews();
+//        if(((ViewGroup)v.getParent())!=null)
+//            ((ViewGroup)v.getParent()).removeAllViews();
+//        mPostLayout.addView(v);
+        for (int i=0; i< mPostLayout.getChildCount(); i++) {
+            if (v == mPostLayout.getChildAt(i)) {
+                v.setVisibility(View.VISIBLE);
+            }else mPostLayout.getChildAt(i).setVisibility(View.GONE);
+
+        }
     }
 
 

@@ -11,7 +11,7 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/body_background"
+        android:background="@color/background_group"
         android:orientation="horizontal">
 
         <ImageView
@@ -95,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:background="@drawable/roundedbutton"
+            android:background="@drawable/roundedbutton_green_light"
             android:padding="10dp"
             android:text="Chỉnh sửa"
             android:textColor="@color/white"

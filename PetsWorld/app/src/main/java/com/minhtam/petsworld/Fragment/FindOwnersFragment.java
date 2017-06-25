@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,7 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.minhtam.petsworld.Activity.FindOwnerItemDetailActivity;
 import com.minhtam.petsworld.Activity.MainActivity;
-import com.minhtam.petsworld.Activity.PlacePostActivity;
+import com.minhtam.petsworld.Activity.PlacePostFindOwnerActivity;
 import com.minhtam.petsworld.Adapter.AdapterFindOwnerListItem;
 import com.minhtam.petsworld.Class.Photo;
 import com.minhtam.petsworld.Model.FindOwnerPost;
@@ -48,6 +47,9 @@ public class FindOwnersFragment extends Fragment {
     private LinearLayout layout_Post;
     private final String TAG = "FIND_OWNER";
     private final int REQUEST_POST = 1;
+    private final int REQUEST_DETAIL = 2;
+    private final int RESULT_DELETE = 3;
+    private final int RESULT_EDIT = 4;
 
     private RecyclerView rvFindOwnerPost;
     private AdapterFindOwnerListItem adapter;
@@ -57,9 +59,6 @@ public class FindOwnersFragment extends Fragment {
     private EndlessScrollListener scrollListener;
     private CallPostFindOwner callPostFindOwner;
     private SwipeRefreshLayout swipeContainerFindOwner;
-
-    public static FindOwnerPost selectedItem;
-
     public FindOwnersFragment() {
         // Required empty public constructor
     }
@@ -83,17 +82,19 @@ public class FindOwnersFragment extends Fragment {
         listFindOwnerPost       = new ArrayList<>();
         linearLayoutManager     = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         adapter                 = new AdapterFindOwnerListItem(getContext(),listFindOwnerPost);
+        linearLayoutManager.setRecycleChildrenOnDetach(false);
         rvFindOwnerPost.setLayoutManager(linearLayoutManager);
         rvFindOwnerPost.setAdapter(adapter);
-        rvFindOwnerPost.setHasFixedSize(true);
+
 
         scrollListener = new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int totalItemsCount) {
-                if(listFindOwnerPost!=null)
-                    if (!listFindOwnerPost.get(listFindOwnerPost.size() - 1).getId().equals("10")) {
+                if (listFindOwnerPost.size() > 0) {
+                    if (Integer.parseInt(listFindOwnerPost.get(listFindOwnerPost.size() - 1).getId()) > 10) {
                         new loadOlderData().execute();
                     }
+                }
                 return true;
             }
         };
@@ -111,12 +112,10 @@ public class FindOwnersFragment extends Fragment {
             }
         }
 
-
-
         layout_Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PlacePostActivity.class);
+                Intent intent = new Intent(getActivity(), PlacePostFindOwnerActivity.class);
                 startActivityForResult(intent,REQUEST_POST);
             }
         });
@@ -126,8 +125,8 @@ public class FindOwnersFragment extends Fragment {
             public void OnItemClickListener(View view, int position) {
                 FindOwnerPost findOwnerPost = listFindOwnerPost.get(position);
                 Intent i = new Intent(getActivity(), FindOwnerItemDetailActivity.class);
-                selectedItem = findOwnerPost;
-                startActivity(i);
+                i.putExtra("selecteditem",findOwnerPost);
+                startActivityForResult(i,REQUEST_DETAIL);
             }
         });
 
@@ -148,7 +147,34 @@ public class FindOwnersFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_POST && resultCode == getActivity().RESULT_OK) {
-            listFindOwnerPost.add(0, (FindOwnerPost) data.getParcelableExtra("findowner"));
+            FindOwnerPost post = (FindOwnerPost) data.getParcelableExtra("findownerpost");
+            if (post != null) {
+                int pos = listFindOwnerPost.indexOf(post);
+                if (pos > -1) {
+                    adapter.remove(pos);
+                    adapter.add(0, post);
+                } else {
+                    adapter.add(0,post);
+                }
+            }
+        }
+        else if (requestCode == REQUEST_DETAIL && resultCode == RESULT_DELETE) {
+            String findOwnerId = data.getStringExtra("deleted");
+            for(int i = 0; i<listFindOwnerPost.size(); i++) {
+                if (listFindOwnerPost.get(i).getId().equals(findOwnerId)) {
+                    adapter.remove(i);
+                }
+            }
+        }
+        else if(requestCode == REQUEST_DETAIL && resultCode == RESULT_EDIT){
+            FindOwnerPost post = data.getParcelableExtra("findownerpost");
+            for(int i = 0; i<listFindOwnerPost.size(); i++) {
+                if (listFindOwnerPost.get(i).getId().equals(post.getId())) {
+                    adapter.remove(i);
+                    adapter.add(i,post);
+                }
+            }
+
         }
     }
 
@@ -206,7 +232,6 @@ public class FindOwnersFragment extends Fragment {
             if (s.equals("error")) {
                 Toast.makeText(getContext(), "Không có bài viết nào", Toast.LENGTH_SHORT).show();
             } else {
-                rvFindOwnerPost.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
         }
@@ -218,7 +243,6 @@ public class FindOwnersFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             progressFooter.setVisibility(View.VISIBLE);
-
         }
 
         @Override
@@ -255,21 +279,13 @@ public class FindOwnersFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (s.equals("")) return;
-            new CountDownTimer(3000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                @Override
-                public void onFinish() {
-                    progressFooter.setVisibility(View.GONE);
-                    scrollListener.setLoaded();
-                    Log.d(TAG,"LOAD MORE");
-                    adapter.notifyDataSetChanged();
-                }
-            }.start();
+            if (s.equals("")) {
+                progressFooter.setVisibility(View.GONE);
+                scrollListener.setLoaded();
+                return;
+            }
+            Log.d(TAG,"LOAD MORE");
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -310,8 +326,7 @@ public class FindOwnersFragment extends Fragment {
             super.onPostExecute(s);
             swipeContainerFindOwner.setRefreshing(false);
             if(s.equals("OK")) {
-                adapter = new AdapterFindOwnerListItem(getContext(),listFindOwnerPost);
-                rvFindOwnerPost.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
         }
     }

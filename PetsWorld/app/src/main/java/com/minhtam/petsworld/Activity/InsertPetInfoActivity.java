@@ -3,6 +3,7 @@ package com.minhtam.petsworld.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ import com.minhtam.petsworld.Adapter.ExpandableListViewPetTypeAdapter;
 import com.minhtam.petsworld.Class.PetInfo;
 import com.minhtam.petsworld.Class.PetType;
 import com.minhtam.petsworld.Model.FindOwnerPost;
+import com.minhtam.petsworld.Model.FindPetPost;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.CallPetType;
 
@@ -58,6 +60,7 @@ public class InsertPetInfoActivity extends AppCompatActivity {
 
     private boolean isEdit = false;
     private FindOwnerPost findOwnerPost;
+    private FindPetPost findPetPost;
 
     //Dialog Date Picker
     private Dialog datePickerDialog;
@@ -91,7 +94,7 @@ public class InsertPetInfoActivity extends AppCompatActivity {
 
         cbInsertPetInfo_Vacines.setClickable(true);
 
-        petInfo = PlacePostActivity.petInfo;
+        petInfo = getIntent().getParcelableExtra("petinfo");
         petInfo.setUserid(Integer.parseInt(MainActivity.userInfo.getId()));
 
         listHeader = new ArrayList<>();
@@ -103,6 +106,7 @@ public class InsertPetInfoActivity extends AppCompatActivity {
         //init dialog timepicker
         datePickerDialog = new Dialog(InsertPetInfoActivity.this);
         datePickerDialog.setContentView(R.layout.dialog_datepicker);
+        datePickerDialog.setCancelable(true);
         datePickerDialog.setTitle("Chọn ngày tiêm chủng");
         datePicker = (DatePicker) datePickerDialog.findViewById(R.id.DatePicker);
         datePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -121,14 +125,26 @@ public class InsertPetInfoActivity extends AppCompatActivity {
 
         //Init data to view if is edit
         if (isEdit) {
-            findOwnerPost = PlacePostActivity.findOwnerPost;
-            edtInsertPetInfoName.setText(findOwnerPost.getPetname());
+            findOwnerPost = getIntent().getParcelableExtra("findownerpost");
+            findPetPost = getIntent().getParcelableExtra("findpetpost");
+            if (findOwnerPost != null) {
+                edtInsertPetInfoName.setText(findOwnerPost.getPetname());
 
-            if (findOwnerPost.getVaccine().equals("true")) {
-                cbInsertPetInfo_Vacines.setChecked(true);
-                btnInsertPetInfo_VaccineDate.setText(findOwnerPost.getVaccinedate());
+                if (findOwnerPost.getVaccine().equals("true")) {
+                    cbInsertPetInfo_Vacines.setChecked(true);
+                    btnInsertPetInfo_VaccineDate.setText(findOwnerPost.getVaccinedate());
+                }
+                tvInsertPetInfo_PetType.setText(findOwnerPost.getTypename());
             }
-            tvInsertPetInfo_PetType.setText(findOwnerPost.getTypename());
+            else{
+                edtInsertPetInfoName.setText(findPetPost.getPetname());
+
+                if (findPetPost.getVaccine().equals("true")) {
+                    cbInsertPetInfo_Vacines.setChecked(true);
+                    btnInsertPetInfo_VaccineDate.setText(findPetPost.getVaccinedate());
+                }
+                tvInsertPetInfo_PetType.setText(findPetPost.getTypename());
+            }
         }
 
         exlvInsertPetInfo.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -137,6 +153,10 @@ public class InsertPetInfoActivity extends AppCompatActivity {
                 String pettype = getString(R.string.pet_type) + ": " + hashMapPetType.get(listHeader.get(groupPosition)).get(childPosition).getTypename();
                 tvInsertPetInfo_PetType.setText(pettype);
                 petInfo.setTypeid(hashMapPetType.get(listHeader.get(groupPosition)).get(childPosition).getId());
+                if(findOwnerPost!=null)
+                 findOwnerPost.setTypename(hashMapPetType.get(listHeader.get(groupPosition)).get(childPosition).getTypename());
+                else if(findPetPost!=null)
+                    findPetPost.setTypename(hashMapPetType.get(listHeader.get(groupPosition)).get(childPosition).getTypename());
                 isPickPetType = true;
                 return true;
             }
@@ -159,15 +179,34 @@ public class InsertPetInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (CheckInputField()) {
                     petInfo.setName(edtInsertPetInfoName.getText().toString());
+                    if(findOwnerPost!=null)
+                        findOwnerPost.setPetname(edtInsertPetInfoName.getText().toString());
+                    else if(findPetPost!=null)
+                        findPetPost.setPetname(edtInsertPetInfoName.getText().toString());
+
                     if (cbInsertPetInfo_Vacines.isChecked()) {
                         petInfo.setVacine(1);
+                        if(findOwnerPost!=null)
+                            findOwnerPost.setVaccine("true");
+                        else if(findPetPost!=null)
+                            findPetPost.setVaccine("true");
                     } else {
                         petInfo.setVacine(0);
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
                         String dateString = sdf.format(new Date());
                         petInfo.setVaccinedate(dateString);
+                        if(findOwnerPost!=null)
+                            findOwnerPost.setVaccine("false");
+                        else if(findPetPost!=null)
+                            findPetPost.setVaccine("false");
                     }
-                    setResult(RESULT_OK);
+                    Intent i = getIntent();
+                    i.putExtra("petinfo",petInfo);
+                    if(findOwnerPost!=null)
+                        i.putExtra("findownerpost",findOwnerPost);
+                    else if(findPetPost!=null)
+                        i.putExtra("findpetpost",findPetPost);
+                    setResult(RESULT_OK,i);
                     finish();
                 }
             }
@@ -183,12 +222,13 @@ public class InsertPetInfoActivity extends AppCompatActivity {
 
     private boolean CheckInputField() {
         if (edtInsertPetInfoName.getText().toString().equals("")) {
-            toast.cancel();
+            if(toast!=null) toast.cancel();
             toast = Toast.makeText(this,R.string.error_input,Toast.LENGTH_SHORT);
             toast.show();
             return false;
         }
         if (!isPickPetType) {
+            if(toast!=null) toast.cancel();
             toast = Toast.makeText(this,R.string.error_empty_pettype,Toast.LENGTH_SHORT);
             toast.show();
             return false;
@@ -279,6 +319,7 @@ public class InsertPetInfoActivity extends AppCompatActivity {
                 for (PetType petType : listChild) {
                     if (petType.getId() == petInfo.getTypeid()) {
                         tvInsertPetInfo_PetType.setText(getString(R.string.pet_type)+": "+petType.getTypename());
+                        isPickPetType = true;
                     }
                 }
 

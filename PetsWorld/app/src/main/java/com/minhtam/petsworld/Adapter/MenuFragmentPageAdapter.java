@@ -30,9 +30,14 @@ public class MenuFragmentPageAdapter extends FragmentPagerAdapter {
         return mFragmentList.size();
     }
 
-    public void addFragment(Fragment fragment, String title) {
+    public void addFragment(Fragment fragment, String tittle) {
         mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
+        mFragmentTitleList.add(tittle);
+    }
+
+    public void removeFragment(int position) {
+        mFragmentList.remove(position);
+        mFragmentTitleList.remove(position);
     }
 
     @Override

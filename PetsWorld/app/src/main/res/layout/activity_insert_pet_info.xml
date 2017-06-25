@@ -61,7 +61,7 @@
                     android:id="@+id/btnInsertPetInfo_VaccineDate"
                     android:textColor="@color/white"
                     android:textAllCaps="false"
-                    android:background="@drawable/roundedbutton"
+                    android:background="@drawable/roundedbutton_green_light"
                     android:layout_weight="1"
                     android:layout_marginTop="10dp"
                     android:text="@string/pet_vaccinedate"
@@ -95,7 +95,7 @@
                 android:layout_gravity="center"
                 android:textColor="@color/white"
                 android:text="@string/OK"
-                android:background="@drawable/roundedbutton_bluelight"
+                android:background="@drawable/roundedbutton_green"
                 android:layout_width="100dp"
                 android:layout_height="50dp" />
         </LinearLayout>

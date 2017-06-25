@@ -43,6 +43,18 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
         this.onItemClickListener = onItemClickListener;
     }
 
+    public void add(int position,FindOwnerPost post) {
+        listFindOwnerPost.add(position,post);
+        notifyItemInserted(position);
+        notifyDataSetChanged();
+    }
+
+    public void remove(int position) {
+        listFindOwnerPost.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.layout_findowner_post_item,parent,false);
@@ -51,7 +63,7 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         FindOwnerPost findOwnerPost = listFindOwnerPost.get(position);
         if (findOwnerPost.getListPhoto() == null) {
             findOwnerPost.setListPhoto(new ArrayList<Photo>());
@@ -62,9 +74,7 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
         holder.rvFindOwnerItem_ListImage.setLayoutManager(holder.linearLayoutManager);
         holder.rvFindOwnerItem_ListImage.setAdapter(holder.adaptetListPhoto);
 
-        if (!findOwnerPost.getFullname().equals("None")) {
-            holder.tvFindOwnerItem_Username.setText(findOwnerPost.getFullname());
-        }
+        holder.tvFindOwnerItem_Username.setText(findOwnerPost.getFullname());
         holder.tvFindOwnerItem_Datetime.setText(findOwnerPost.getDatecreated());
         holder.tvPetInfo_Petname.setText(findOwnerPost.getPetname());
 
@@ -115,6 +125,8 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
             btnPetInfo_VaccineDate    = (Button) itemView.findViewById(R.id.btnPetInfo_VaccineDate);
             imvFindOwnerItem_bigimage = (ImageView) itemView.findViewById(R.id.imvFindOwnerItem_bigimage);
             rvFindOwnerItem_ListImage = (RecyclerView) itemView.findViewById(R.id.rvFindOwnerItem_ListImage);
+
+            cbPetInfo_Vacine.setClickable(false);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

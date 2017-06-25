@@ -50,7 +50,7 @@ public class ImageActivity extends AppCompatActivity {
         //Init controller
         listPath = new ArrayList<>();
         listPath.addAll(getFilePaths());
-        listSelected = PlacePostActivity.listImage;
+        listSelected = getIntent().getStringArrayListExtra("listImage");
         gvImage = (GridView) findViewById(R.id.gvPhoto);
         adapterImage = new GridViewAdapter(this,listPath,listSelected);
         gvImage.setAdapter(adapterImage);
@@ -70,8 +70,9 @@ public class ImageActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            PlacePostActivity.listImage = listSelected;
-            setResult(RESULT_OK);
+            Intent i = getIntent();
+            i.putExtra("listImage",listSelected);
+            setResult(RESULT_OK,i);
             finish();
         } else if (item.getItemId() == 1) {
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -82,8 +83,9 @@ public class ImageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        PlacePostActivity.listImage = listSelected;
-        setResult(RESULT_OK);
+        Intent i = getIntent();
+        i.putExtra("listImage",listSelected);
+        setResult(RESULT_OK,i);
         finish();
         super.onBackPressed();
     }

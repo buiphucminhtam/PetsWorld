@@ -14,17 +14,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/layout_Post_FindOwner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="7dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="10dp"
-                android:background="@color/white"
+                android:background="@color/background_group"
 
                 android:orientation="horizontal">
 
@@ -36,11 +35,11 @@
                 <TextView
                     android:id="@+id/tvFindOwner_userPost"
                     android:hint="Đăng tin tìm người nuôi"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:paddingLeft="10dp"
                     android:gravity="center_vertical"
+                    android:textSize="16sp"
                     android:textColorHint="@color/text_msg_input"
 
                     />

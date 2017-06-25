@@ -18,6 +18,7 @@ public class CallPostFindOwner {
     public  final String OPERATION_GET_OLDER    = WebserviceAddress.OPERATION_GET_POST_FINDOWNER_OLDER;
     public  final String OPERATION_GET_NEWEST   = WebserviceAddress.OPERATION_GET_POST_FINDOWNER_NEWEST;
     public  final String OPERATION_GET_BYUSERID   = WebserviceAddress.OPERATION_GET_POST_FINDOWNER_BYUSERID;
+    public  final String OPERATION_GET_BYUSERIDANDPETID   = WebserviceAddress.OPERATION_GET_POST_FINDOWNER_BYUSERIDANDPETID;
     public  final String OPERATION_INSERT       = WebserviceAddress.OPERATION_INSERT_POST_FINDOWNER;
     public  final String OPERATION_UPDATE       = WebserviceAddress.OPERATION_UPDATE_POST_FINDOWNER;
     public  final String OPERATION_DELETE       = WebserviceAddress.OPERATION_DELETE_POST_FINDOWNER;
@@ -30,6 +31,7 @@ public class CallPostFindOwner {
     public  final String SOAP_ACTION_GETOLDER    = WSDL_TARGET_NAMESPACE +   OPERATION_GET_OLDER;
     public  final String SOAP_ACTION_GETNEWEST   = WSDL_TARGET_NAMESPACE +   OPERATION_GET_NEWEST;
     public  final String SOAP_ACTION_GETBYUSERID   = WSDL_TARGET_NAMESPACE +   OPERATION_GET_BYUSERID;
+    public  final String SOAP_ACTION_GETBYUSERIDANDPETID   = WSDL_TARGET_NAMESPACE +   OPERATION_GET_BYUSERIDANDPETID;
     public  final String SOAP_ACTION_INSERT      = WSDL_TARGET_NAMESPACE +   OPERATION_INSERT;
     public  final String SOAP_ACTION_UPDATE      = WSDL_TARGET_NAMESPACE +   OPERATION_UPDATE;
     public  final String SOAP_ACTION_DELETE      = WSDL_TARGET_NAMESPACE +   OPERATION_DELETE;
@@ -225,6 +227,42 @@ public class CallPostFindOwner {
         try
         {
             httpTransport.call(SOAP_ACTION_GETBYUSERID, envelope);
+            response = envelope.getResponse();
+        }
+        catch (Exception exception)
+        {
+            response=exception.toString();
+        }
+        return response.toString();
+    }
+
+    public String GetPostFindOwnerByAndPetId(int userid, int petid) {
+        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,OPERATION_GET_BYUSERIDANDPETID);
+        PropertyInfo pi=new PropertyInfo();
+        pi.setName("userid");
+        pi.setValue(userid);
+        pi.setType(Integer.class);
+        request.addProperty(pi);
+
+        pi=new PropertyInfo();
+        pi.setName("petid");
+        pi.setValue(petid);
+        pi.setType(Integer.class);
+        request.addProperty(pi);
+
+        Log.d("request",request.toString());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);
+        envelope.dotNet = true;
+
+        envelope.setOutputSoapObject(request);
+
+        HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
+        Object response=null;
+        try
+        {
+            httpTransport.call(SOAP_ACTION_GETBYUSERIDANDPETID, envelope);
             response = envelope.getResponse();
         }
         catch (Exception exception)

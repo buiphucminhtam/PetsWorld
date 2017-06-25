@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.PlacePostActivity"
+            android:name=".Activity.PlacePostFindOwnerActivity"
             android:launchMode="singleInstance" />
         <activity
             android:name=".Activity.RegisterActivity"
@@ -40,7 +40,9 @@
         <activity
             android:name=".Activity.InsertPetInfoActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".Activity.FindOwnerItemDetailActivity"></activity>
+        <activity android:name=".Activity.FindOwnerItemDetailActivity" />
+        <activity android:name=".Activity.PlacePostFindPetActivity" />
+        <activity android:name=".Activity.FindPetItemDetailActivity"></activity>
     </application>
 
 </manifest>

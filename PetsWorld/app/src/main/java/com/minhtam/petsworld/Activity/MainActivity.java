@@ -16,6 +16,7 @@ import com.minhtam.petsworld.Adapter.MenuFragmentPageAdapter;
 import com.minhtam.petsworld.Class.UserInfo;
 import com.minhtam.petsworld.Fragment.FindOwnersFragment;
 import com.minhtam.petsworld.Fragment.FindPetsFragment;
+import com.minhtam.petsworld.Fragment.ReportManager;
 import com.minhtam.petsworld.Fragment.UserInformationFragment;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.CallUserInfo;
@@ -32,9 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private MenuFragmentPageAdapter adapter;
+    public static boolean isAdmin = false;
 
     public static UserInfo userInfo;
-    private int[] tabIcons ={R.drawable.ic_menu,R.drawable.ic_pets,R.drawable.ic_person_pin_circle,R.drawable.ic_account_box};
+    private int[] tabIcons ={R.drawable.ic_pets,R.drawable.ic_person_pin_circle,R.drawable.ic_account_box,R.drawable.ic_error};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,19 +72,22 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0: setupTabIcons();
-                        tabLayout.getTabAt(position).setIcon(R.drawable.ic_menu_selected);
+                        tabLayout.getTabAt(position).setIcon(R.drawable.ic_person_circle_selected);
                         break;
                     case 1: setupTabIcons();
                         tabLayout.getTabAt(position).setIcon(R.drawable.ic_pets_selected);
                         break;
+
                     case 2: setupTabIcons();
-                        tabLayout.getTabAt(position).setIcon(R.drawable.ic_person_circle_selected);
-                        break;
-                    case 3: setupTabIcons();
                         tabLayout.getTabAt(position).setIcon(R.drawable.ic_account_box_selected);
                         break;
+
+                    case 3: setupTabIcons();
+                        tabLayout.getTabAt(position).setIcon(R.drawable.ic_error_selected);
+                        break;
+
                     default:
-                        tabLayout.getTabAt(0).setIcon(R.drawable.ic_menu_selected);
+                        tabLayout.getTabAt(0).setIcon(R.drawable.ic_pets_selected);
                         break;
                 }
             }
@@ -106,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i< tabLayout.getTabCount(); i++) {
             tabLayout.getTabAt(i).setIcon(tabIcons[i]);
         }
+
+        //Set tap 0 for selected first
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_menu_selected);
     }
 
 
@@ -132,6 +140,10 @@ public class MainActivity extends AppCompatActivity {
                 userInfo.setAddress(jsonObject.getString("address"));
                 userInfo.setPhone(jsonObject.getString("phone"));
                 userInfo.setDatecreated(jsonObject.getString("datecreated"));
+
+                if (jsonObject.getInt("state") == 0) {
+                    isAdmin = true;
+                }else isAdmin = false;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -141,6 +153,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if (isAdmin) {
+                adapter.addFragment(new ReportManager(), "Quản lý báo cáo");
+            } else {
+                if (adapter.getCount() > 3) {
+                    adapter.removeFragment(adapter.getCount()-1);
+                }
+            }
             adapter.notifyDataSetChanged();
             setupTabIcons();
         }

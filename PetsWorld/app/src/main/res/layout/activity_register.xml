@@ -61,7 +61,7 @@
             android:id="@+id/btnRegisterOK"
             android:text="@string/register_button"
             android:textColor="@color/white"
-            android:background="@drawable/roundedbutton"
+            android:background="@drawable/roundedbutton_green_light"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textColor="@color/white"
-            android:background="@drawable/roundedbutton_bluelight"/>
+            android:background="@drawable/roundedbutton_green"/>
 
     </LinearLayout>
 

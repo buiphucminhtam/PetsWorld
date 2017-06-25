@@ -17,6 +17,8 @@ public class CallUserInfo {
     public final String OPERATION_NAME_UPDATE_USERINFO = WebserviceAddress.OPERATION_UPDATE_USERINFO;
     public final String OPERATION_NAME_UPDATE_USERIMAGE = WebserviceAddress.OPERATION_UPDATE_USERIMAGE;
     public final String OPERATION_NAME_CHANGE_PASSWORD = WebserviceAddress.OPERATION_CHANGE_PASSWORD;
+    public final String OPERATION_NAME_LOCK_USER = WebserviceAddress.OPERATION_LOCK_USER;
+    public final String OPERATION_NAME_UNLOCK_USER = WebserviceAddress.OPERATION_UNLOCK_USER;
 
     public final String WSDL_TARGET_NAMESPACE = WebserviceAddress.WSDL_TARGET_NAMESPACE;
 
@@ -26,6 +28,8 @@ public class CallUserInfo {
     public final String SOAP_ACTION_UPDATE_USERINFO = WSDL_TARGET_NAMESPACE + OPERATION_NAME_UPDATE_USERINFO;
     public final String SOAP_ACTION_UPDATE_USERIMAGE = WSDL_TARGET_NAMESPACE + OPERATION_NAME_UPDATE_USERIMAGE;
     public final String SOAP_ACTION_CHANGE_PASSWORD = WSDL_TARGET_NAMESPACE + OPERATION_NAME_CHANGE_PASSWORD;
+    public final String SOAP_ACTION_LOCK_USER = WSDL_TARGET_NAMESPACE + OPERATION_NAME_LOCK_USER;
+    public final String SOAP_ACTION_UNLOCK_USER = WSDL_TARGET_NAMESPACE + OPERATION_NAME_UNLOCK_USER;
 
     public CallUserInfo() {
         super();
@@ -150,6 +154,60 @@ public class CallUserInfo {
         Object response = null;
         try {
             httpTransport.call(SOAP_ACTION_CHANGE_PASSWORD, envelope);
+            response = envelope.getResponse();
+        } catch (Exception exception) {
+            response = exception.toString();
+        }
+        return Integer.parseInt(response.toString());
+    }
+
+    public int LockUser(int id) {
+        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, OPERATION_NAME_LOCK_USER);
+        PropertyInfo pi = new PropertyInfo();
+        pi.setName("id");
+        pi.setValue(id);
+        pi.setType(Integer.class);
+        request.addProperty(pi);
+
+        Log.d("request", request.toString());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);
+        envelope.dotNet = true;
+
+        envelope.setOutputSoapObject(request);
+
+        HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
+        Object response = null;
+        try {
+            httpTransport.call(SOAP_ACTION_LOCK_USER, envelope);
+            response = envelope.getResponse();
+        } catch (Exception exception) {
+            response = exception.toString();
+        }
+        return Integer.parseInt(response.toString());
+    }
+
+    public int UnlockUser(int id) {
+        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, OPERATION_NAME_UNLOCK_USER);
+        PropertyInfo pi = new PropertyInfo();
+        pi.setName("id");
+        pi.setValue(id);
+        pi.setType(Integer.class);
+        request.addProperty(pi);
+
+        Log.d("request", request.toString());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);
+        envelope.dotNet = true;
+
+        envelope.setOutputSoapObject(request);
+
+        HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
+        Object response = null;
+        try {
+            httpTransport.call(SOAP_ACTION_UNLOCK_USER, envelope);
             response = envelope.getResponse();
         } catch (Exception exception) {
             response = exception.toString();

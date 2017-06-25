@@ -19,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,11 +28,12 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.minhtam.petsworld.Adapter.AdapterListPhoto;
 import com.minhtam.petsworld.Class.Photo;
+import com.minhtam.petsworld.Class.Report;
 import com.minhtam.petsworld.Class.UserInfo;
-import com.minhtam.petsworld.Fragment.FindOwnersFragment;
 import com.minhtam.petsworld.Model.FindOwnerPost;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.CallPetInfo;
+import com.minhtam.petsworld.Util.KSOAP.CallReport;
 import com.minhtam.petsworld.Util.KSOAP.CallUserInfo;
 import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
 import com.squareup.picasso.Picasso;
@@ -44,6 +46,9 @@ import java.util.ArrayList;
 public class FindOwnerItemDetailActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private final String TAG = "FindOwnerItemDetailActivity";
+    private final int REQUEST_EDIT = 1;
+    private final int RESULT_DELETE = 3;
+    private final int RESULT_EDIT = 4;
     private Activity activity;
     private TextView tvFindOwnerItemDetail_Username;
     private TextView tvFindOwnerItemDetail_Datetime;
@@ -68,12 +73,15 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
     private TextView tvDialogItemDetailEdit;
     private TextView tvDialogItemDetailDelete;
 
+    private Intent intentFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_owner_item_detail);
-        findOwnerPost = FindOwnersFragment.selectedItem;
+        intentFragment = getIntent();
+        findOwnerPost = getIntent().getParcelableExtra("selecteditem");
         activity = this;
         AddControl();
         AddEvent();
@@ -128,7 +136,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         if(findOwnerPost.getPetname() != null) tvPetInfo_Petname.setText(findOwnerPost.getPetname());
         if(findOwnerPost.getTypename() != null) tvPetInfo_PetType.setText(findOwnerPost.getTypename());
         if(findOwnerPost.getVaccine() != null) {
-            if (findOwnerPost.getVaccine().equals("0")) {
+            if (findOwnerPost.getVaccine().equals("false")) {
                 cbPetInfo_Vacine.setChecked(false);
                 btnPetInfo_VaccineDate.setVisibility(View.INVISIBLE);
             } else {
@@ -158,6 +166,18 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
                 window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.WRAP_CONTENT);
 
+                if (userPostInfo.getId().equals(MainActivity.userInfo.getId())) {
+                    tvDialogItemDetailEdit.setVisibility(View.VISIBLE);
+                    tvDialogItemDetailDelete.setVisibility(View.VISIBLE);
+                    tvDialogItemDetailContact.setVisibility(View.GONE);
+                    tvDialogItemDetailReport.setVisibility(View.GONE);
+                } else {
+                    tvDialogItemDetailContact.setVisibility(View.VISIBLE);
+                    tvDialogItemDetailReport.setVisibility(View.VISIBLE);
+                    tvDialogItemDetailEdit.setVisibility(View.GONE);
+                    tvDialogItemDetailDelete.setVisibility(View.GONE);
+                }
+
 
                 tvDialogItemDetailContact.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -173,6 +193,28 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
                 tvDialogItemDetailReport.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        final Dialog dialogReport = new Dialog(activity);
+                        dialogReport.setContentView(R.layout.dialog_report_post);
+                        dialogReport.setTitle("Gửi báo cáo");
+                        dialogReport.show();
+                        dialogMenu.dismiss();
+
+                        final EditText edtMsg = (EditText) dialogReport.findViewById(R.id.edtDialogReportMsg);
+                        Button btnSend = (Button) dialogReport.findViewById(R.id.btnDialogReportSend);
+
+                        btnSend.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String msg = edtMsg.getText().toString();
+                                Report report = new Report(0,Integer.parseInt(findOwnerPost.getUserId()),
+                                        Integer.parseInt(findOwnerPost.getPetId()),1,
+                                        msg,"");
+
+                                new insertReport().execute(report.toJson());
+                                dialogReport.dismiss();
+                            }
+                        });
+
 
                     }
                 });
@@ -181,9 +223,9 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //start activity place post with findowner post
-                        Intent i = new Intent(activity, PlacePostActivity.class);
+                        Intent i = new Intent(activity, PlacePostFindOwnerActivity.class);
                         i.putExtra("findownerpost",findOwnerPost);
-                        startActivity(i);
+                        startActivityForResult(i,REQUEST_EDIT);
                     }
                 });
 
@@ -207,6 +249,16 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK) {
+            FindOwnerPost findOwnerPost = data.getParcelableExtra("findownerpost");
+            intentFragment.putExtra("findownerpost",findOwnerPost);
+            setResult(RESULT_EDIT,intentFragment);
+            finish();
+        }
+    }
 
     private class getUserInfo extends AsyncTask<Void,Void,String> {
 
@@ -239,17 +291,6 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
                 jsonArray = new JSONArray(s);
                 UserInfo userInfo = new Gson().fromJson(jsonArray.getString(0),UserInfo.class);
                 userPostInfo = userInfo;
-                if (findOwnerPost.getUserId().equals(userPostInfo.getId())) {
-                    tvDialogItemDetailEdit.setVisibility(View.VISIBLE);
-                    tvDialogItemDetailDelete.setVisibility(View.VISIBLE);
-                    tvDialogItemDetailContact.setVisibility(View.GONE);
-                    tvDialogItemDetailReport.setVisibility(View.GONE);
-                } else {
-                    tvDialogItemDetailEdit.setVisibility(View.GONE);
-                    tvDialogItemDetailDelete.setVisibility(View.GONE);
-                    tvDialogItemDetailContact.setVisibility(View.VISIBLE);
-                    tvDialogItemDetailReport.setVisibility(View.VISIBLE);
-                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -282,6 +323,8 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
             super.onPostExecute(s);
             if (s.equals("1")) {
                 Toast.makeText(activity, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                Intent i = getIntent().putExtra("deleted",findOwnerPost.getId());
+                setResult(RESULT_DELETE,i);
                 finish();
             } else {
                 Toast.makeText(activity, "Xóa thất bại, kiểm tra kết nối mạng", Toast.LENGTH_SHORT).show();
@@ -290,8 +333,41 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         }
     }
 
+    private class insertReport extends AsyncTask<String,Void,String> {
+        Dialog progressDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(FindOwnerItemDetailActivity.this);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.progress_layout);
+            progressDialog.getWindow().setBackgroundDrawableResource(R.drawable.background_transparent);
+            progressDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            CallReport callReport = new CallReport();
+            int result = callReport.Insert(params[0]);
+            return String.valueOf(result);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (s.equals("1")) {
+                Toast.makeText(activity, "Gửi báo cáo thành công", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(activity, "Gửi báo cáo thất bại, kiểm tra kết nối mạng", Toast.LENGTH_SHORT).show();
+            }
+            progressDialog.dismiss();
+        }
+    }
+
     private void showDialogUserInfo() {
-        Dialog dialog = new Dialog(FindOwnerItemDetailActivity.this);
+        final Dialog dialog = new Dialog(FindOwnerItemDetailActivity.this);
         dialog.setContentView(R.layout.layout_user_information);
         dialog.setTitle("Thông tin liên lạc");
         dialog.show();
@@ -301,10 +377,115 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         TextView tvPhoneNumber = (TextView) dialog.findViewById(R.id.tvPhoneNumbers);
         ImageView imageView = (ImageView) dialog.findViewById(R.id.imgUserImage);
 
+        Button btnLock = (Button) dialog.findViewById(R.id.btnUserInfomation_Detail_BlockUser);
+
+        if (userPostInfo != null) {
+            if (userPostInfo.getState().equals("2")) {
+                btnLock.setText("Mở tài khoản");
+            } else {
+                btnLock.setText("Khóa tài khoản");
+            }
+        }
+
+        if (MainActivity.isAdmin) {
+            btnLock.setVisibility(View.VISIBLE);
+        }
+
+        btnLock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userPostInfo != null) {
+                    if (userPostInfo.getState().equals("2")) {
+                        new unlockUser().execute();
+                        dialog.dismiss();
+                    } else {
+                        if (!userPostInfo.getState().equals("0")) {
+                            new lockUser().execute();
+                            dialog.dismiss();
+                        }
+                    }
+                }
+            }
+        });
+
         tvName.setText(userPostInfo.getFullname());
         tvAddress.setText(userPostInfo.getAddress());
         tvPhoneNumber.setText(userPostInfo.getPhone());
 
         Picasso.with(this).load(WebserviceAddress.WEB_ADDRESS + userPostInfo.getUserimage()).into(imageView);
+    }
+
+    private class lockUser extends AsyncTask<Void,Void,Integer> {
+
+        Dialog progressDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(FindOwnerItemDetailActivity.this);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.progress_layout);
+            progressDialog.getWindow().setBackgroundDrawableResource(R.drawable.background_transparent);
+            progressDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            CallUserInfo callUserInfo = new CallUserInfo();
+            int result = 0;
+            if(userPostInfo!=null)
+                result = callUserInfo.LockUser(Integer.parseInt(userPostInfo.getId()));
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Integer s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            String text = "";
+            if(s==1)
+                text = "Khóa tài khoản thành công";
+            else
+                text = "Lỗi, Kiểm tra lại kết nối mạng";
+
+            Toast.makeText(FindOwnerItemDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class unlockUser extends AsyncTask<Void,Void,Integer> {
+
+        Dialog progressDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(FindOwnerItemDetailActivity.this);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.progress_layout);
+            progressDialog.getWindow().setBackgroundDrawableResource(R.drawable.background_transparent);
+            progressDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            CallUserInfo callUserInfo = new CallUserInfo();
+            int result = 0;
+            if(userPostInfo!=null)
+                result = callUserInfo.UnlockUser(Integer.parseInt(userPostInfo.getId()));
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Integer s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            String text = "";
+            if(s==1)
+                text = "Mở khóa tài khoản thành công";
+            else
+                text = "Lỗi, Kiểm tra lại kết nối mạng";
+
+            Toast.makeText(FindOwnerItemDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+        }
     }
 }

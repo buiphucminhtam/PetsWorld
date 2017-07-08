@@ -116,6 +116,10 @@ public class InsertPetInfoActivity extends AppCompatActivity {
                 btnInsertPetInfo_VaccineDate.setText(date);
                 String dateVaccine = datePicker.getYear() + "/" + datePicker.getMonth() + "/" + datePicker.getDayOfMonth();
                 petInfo.setVaccinedate(dateVaccine);
+                String datePost = datePicker.getDayOfMonth() + "/" + datePicker.getMonth() + "/" + datePicker.getYear();
+                findOwnerPost.setVaccinedate(datePost);
+                findPetPost.setVaccinedate(datePost);
+                Log.d(TAG,"DATEVACINE: "+ dateVaccine);
             }
         });
     }
@@ -127,24 +131,30 @@ public class InsertPetInfoActivity extends AppCompatActivity {
         if (isEdit) {
             findOwnerPost = getIntent().getParcelableExtra("findownerpost");
             findPetPost = getIntent().getParcelableExtra("findpetpost");
+            if(findOwnerPost == null) findOwnerPost = new FindOwnerPost();
+            if(findPetPost == null) findPetPost = new FindPetPost();
             if (findOwnerPost != null) {
                 edtInsertPetInfoName.setText(findOwnerPost.getPetname());
 
                 if (findOwnerPost.getVaccine().equals("true")) {
                     cbInsertPetInfo_Vacines.setChecked(true);
                     btnInsertPetInfo_VaccineDate.setText(findOwnerPost.getVaccinedate());
+                    btnInsertPetInfo_VaccineDate.setVisibility(View.VISIBLE);
                 }
                 tvInsertPetInfo_PetType.setText(findOwnerPost.getTypename());
-            }
-            else{
+            } else {
                 edtInsertPetInfoName.setText(findPetPost.getPetname());
 
                 if (findPetPost.getVaccine().equals("true")) {
                     cbInsertPetInfo_Vacines.setChecked(true);
                     btnInsertPetInfo_VaccineDate.setText(findPetPost.getVaccinedate());
+                    btnInsertPetInfo_VaccineDate.setVisibility(View.VISIBLE);
                 }
                 tvInsertPetInfo_PetType.setText(findPetPost.getTypename());
             }
+        } else {
+            findPetPost = new FindPetPost();
+            findOwnerPost = new FindOwnerPost();
         }
 
         exlvInsertPetInfo.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -179,33 +189,25 @@ public class InsertPetInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (CheckInputField()) {
                     petInfo.setName(edtInsertPetInfoName.getText().toString());
-                    if(findOwnerPost!=null)
-                        findOwnerPost.setPetname(edtInsertPetInfoName.getText().toString());
-                    else if(findPetPost!=null)
-                        findPetPost.setPetname(edtInsertPetInfoName.getText().toString());
+                    findOwnerPost.setPetname(edtInsertPetInfoName.getText().toString());
+                    findPetPost.setPetname(edtInsertPetInfoName.getText().toString());
 
                     if (cbInsertPetInfo_Vacines.isChecked()) {
                         petInfo.setVacine(1);
-                        if(findOwnerPost!=null)
-                            findOwnerPost.setVaccine("true");
-                        else if(findPetPost!=null)
-                            findPetPost.setVaccine("true");
+                        findOwnerPost.setVaccine("true");
+                        findPetPost.setVaccine("true");
                     } else {
                         petInfo.setVacine(0);
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
                         String dateString = sdf.format(new Date());
                         petInfo.setVaccinedate(dateString);
-                        if(findOwnerPost!=null)
-                            findOwnerPost.setVaccine("false");
-                        else if(findPetPost!=null)
-                            findPetPost.setVaccine("false");
+                        findOwnerPost.setVaccine("false");
+                        findPetPost.setVaccine("false");
                     }
                     Intent i = getIntent();
                     i.putExtra("petinfo",petInfo);
-                    if(findOwnerPost!=null)
-                        i.putExtra("findownerpost",findOwnerPost);
-                    else if(findPetPost!=null)
-                        i.putExtra("findpetpost",findPetPost);
+                    i.putExtra("findownerpost",findOwnerPost);
+                    i.putExtra("findpetpost",findPetPost);
                     setResult(RESULT_OK,i);
                     finish();
                 }

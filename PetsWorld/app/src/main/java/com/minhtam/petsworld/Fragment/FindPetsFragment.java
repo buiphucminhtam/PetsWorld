@@ -3,11 +3,13 @@ package com.minhtam.petsworld.Fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -121,8 +123,22 @@ public class FindPetsFragment extends Fragment {
         layout_Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PlacePostFindPetActivity.class);
-                startActivityForResult(intent,REQUEST_POST);
+                if (!MainActivity.userInfo.getUsername().equals("None") && !MainActivity.userInfo.getAddress().equals("None") && !MainActivity.userInfo.getPhone().equals("None")) {
+                    Intent intent = new Intent(getActivity(), PlacePostFindPetActivity.class);
+                    startActivityForResult(intent, REQUEST_POST);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Phải thêm đầy đủ thông tin cá nhân trước");
+                    builder.setCancelable(true);
+                    builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    builder.create().show();
+                }
+
             }
         });
 
@@ -153,14 +169,14 @@ public class FindPetsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_POST && resultCode == getActivity().RESULT_OK) {
-            FindPetPost post = (FindPetPost) data.getParcelableExtra("findpetpost");
+            FindPetPost post = data.getParcelableExtra("result");
             if (post != null) {
                 int pos = listFindPetPost.indexOf(post);
                 if (pos > -1) {
                     adapter.remove(pos);
                     adapter.add(0, post);
                 } else {
-                    adapter.add(0,post);
+                    new loadNewest().execute();
                 }
             }
         }
@@ -248,7 +264,7 @@ public class FindPetsFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressFooter.setVisibility(View.VISIBLE);
+            if(progressFooter!=null) progressFooter.setVisibility(View.VISIBLE);
         }
 
         @Override

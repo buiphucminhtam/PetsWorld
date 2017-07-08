@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean isAdmin = false;
 
     public static UserInfo userInfo;
-    private int[] tabIcons ={R.drawable.ic_pets,R.drawable.ic_person_pin_circle,R.drawable.ic_account_box,R.drawable.ic_error};
+    private int[] tabIcons ={R.drawable.ic_person_pin_circle,R.drawable.ic_pets,R.drawable.ic_account_box,R.drawable.ic_error};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Set tap 0 for selected first
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_menu_selected);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_person_circle_selected);
     }
 
 

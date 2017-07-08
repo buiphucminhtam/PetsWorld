@@ -368,7 +368,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
 
     private void showDialogUserInfo() {
         final Dialog dialog = new Dialog(FindOwnerItemDetailActivity.this);
-        dialog.setContentView(R.layout.layout_user_information);
+        dialog.setContentView(R.layout.dialog_userinformation_detail);
         dialog.setTitle("Thông tin liên lạc");
         dialog.show();
 

@@ -26,7 +26,7 @@
     <string name="edit">Chỉnh sửa</string>
     <string name="pet_name">Tên thú nuôi</string>
     <string name="insertpetinfo_tittle">Thêm thông tin thú nuôi</string>
-    <string name="pet_type">Loại thú</string>
+    <string name="pet_type">Loại vật nuôi</string>
     <string name="pet_vacines">Tiêm chủng</string>
     <string name="post_description">Mô tả</string>
     <string name="post_requirement">Yêu cầu</string>

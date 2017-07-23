@@ -84,6 +84,7 @@ public class FindOwnersFragment extends Fragment {
     private EditText edtDistanceSearch_FindOwner;
     private AdapterFindOwnerListItem adapterTemp;
     private ArrayList<FindOwnerPost> listFindOwnerTemp;
+    private boolean isSearchShowing = false; //Check search showing
 
     private ArrayList<PetType> listChild;
     private ArrayList<String> listHeader;
@@ -97,6 +98,7 @@ public class FindOwnersFragment extends Fragment {
     private int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     private GPSTracker gps;
+
 
 
     public FindOwnersFragment() {
@@ -217,8 +219,15 @@ public class FindOwnersFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!isPickPetType && !isTurnOnLocationMode) {
-                    showSearchType();
-                    showSearchDistance();
+                    if (isSearchShowing) {
+                        isSearchShowing = false;
+                        hideSearchDistance();
+                        hideSearchType();
+                    } else {
+                        isSearchShowing = true;
+                        showSearchType();
+                        showSearchDistance();
+                    }
                 } else {
                     hideSearchDistance();
                     hideSearchType();
@@ -306,6 +315,7 @@ public class FindOwnersFragment extends Fragment {
     private void hideSearchType() {
         isPickPetType = false;
         rvFindOwnerPost.swapAdapter(adapter,false);
+        exlvFindOwnerPettype.setVisibility(View.GONE);
         adapter.notifyDataSetChanged();
     }
 

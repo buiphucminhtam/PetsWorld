@@ -83,6 +83,7 @@ public class FindPetsFragment extends Fragment {
     private TextView tvSearchFindPet;
     private EditText edtDistanceSearch_FindPet;
     private AdapterFindPetListItem adapterTemp;
+    private boolean isSearchShowing = false; //Check search showing
 
     private ArrayList<PetType> listChild;
     private ArrayList<String> listHeader;
@@ -215,8 +216,16 @@ public class FindPetsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!isPickPetType && !isTurnOnLocationMode) {
-                    showSearchType();
-                    showSearchDistance();
+                    if (isSearchShowing) {
+                        isSearchShowing = false;
+                        hideSearchDistance();
+                        hideSearchType();
+                    } else {
+                        isSearchShowing = true;
+                        showSearchType();
+                        showSearchDistance();
+                    }
+
                 } else {
                     hideSearchDistance();
                     hideSearchType();
@@ -305,6 +314,7 @@ public class FindPetsFragment extends Fragment {
         isPickPetType = false;
         rvFindPetPost.swapAdapter(adapter,false);
         adapter.notifyDataSetChanged();
+        exlvFindPetPettype.setVisibility(View.GONE);
     }
 
     private void showSearchDistance() {

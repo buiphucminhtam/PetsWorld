@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.minhtam.petsworld.Fragment.ReportManager">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:gravity="center"
+                android:background="@color/colorPrimary"
+                android:id="@+id/tvFragmentReport_FindOwnerReport"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="@string/findowner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:gravity="center"
+                android:background="@color/colorPrimary"
+                android:id="@+id/tvFragmentReport_FindPetReport"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="@string/findpet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/layoutListReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</FrameLayout>

@@ -29,7 +29,7 @@ public class DialogEditUserInformation extends Activity {
     final int PICK_IMAGE = 1;
 
     //Dialog update information
-    MyCustomDialog dialogUpdateInfo;
+    MyImagViewDialog dialogUpdateInfo;
     Dialog dialogUpdate;
     ImageView imvUpdateImg;
     EditText edtUpdateName,edtUpdateBirthDay,edtUpdateAddress,edtUpdatePhonenumbers;
@@ -39,7 +39,7 @@ public class DialogEditUserInformation extends Activity {
     public DialogEditUserInformation(final Context context) {
         this.context = context;
         //Init dialog
-        dialogUpdateInfo = new MyCustomDialog(context, R.layout.dialog_update_userinformation,"Chỉnh sửa thông tin");
+        dialogUpdateInfo = new MyImagViewDialog(context, R.layout.dialog_update_userinformation,"Chỉnh sửa thông tin");
         dialogUpdate = dialogUpdateInfo.getDialog();
         imvUpdateImg = (ImageView) dialogUpdate.findViewById(R.id.imvUpdateImgUserInfo);
         edtUpdateName = (EditText) dialogUpdate.findViewById(R.id.edtUpdateUserName);

@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/layout_placePost"
-   >
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <include layout="@layout/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content">
         </include>
-   </LinearLayout>
-
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,7 +37,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/btnFindOwnerLocation"
+        android:id="@+id/btnFindPetLocation"
         android:text="@string/location_input"
         android:textColor="@color/text_msg_input"
         android:textSize="15sp"

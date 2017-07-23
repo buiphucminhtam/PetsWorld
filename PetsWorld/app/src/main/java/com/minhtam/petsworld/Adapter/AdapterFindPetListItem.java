@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.minhtam.petsworld.Class.Photo;
-import com.minhtam.petsworld.Model.FindOwnerPost;
+import com.minhtam.petsworld.Model.FindPetPost;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
 import com.squareup.picasso.Picasso;
@@ -24,41 +24,40 @@ import java.util.ArrayList;
  * Created by st on 5/23/2017.
  */
 
-public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOwnerListItem.ViewHolder> {
+public class AdapterFindPetListItem extends RecyclerView.Adapter<AdapterFindPetListItem.ViewHolder> {
     private Context mContext;
-    private ArrayList<FindOwnerPost> listFindOwnerPost;
+    private ArrayList<FindPetPost> listFindPetPost;
     OnItemClickListener onItemClickListener;
 
-    public AdapterFindOwnerListItem(Context context, ArrayList<FindOwnerPost> listFindOwnerPost) {
+    public AdapterFindPetListItem(Context context, ArrayList<FindPetPost> listFindPetPost) {
         super();
         this.mContext = context;
-        this.listFindOwnerPost = listFindOwnerPost;
+        this.listFindPetPost = listFindPetPost;
     }
 
     public interface OnItemClickListener{
         public void OnItemClickListener(View view, int position);
     }
 
-
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void add(int position,FindOwnerPost post) {
-        listFindOwnerPost.add(position,post);
+    public void add(int position,FindPetPost post) {
+        listFindPetPost.add(position,post);
         notifyItemInserted(position);
         notifyDataSetChanged();
     }
 
     public void remove(int position) {
-        listFindOwnerPost.remove(position);
+        listFindPetPost.remove(position);
         notifyItemRemoved(position);
         notifyDataSetChanged();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.layout_findowner_post_item,parent,false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.layout_findpet_post_item,parent,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
@@ -66,38 +65,36 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.setIsRecyclable(false);
-        FindOwnerPost findOwnerPost = listFindOwnerPost.get(position);
-
-
-        if (findOwnerPost.getListPhoto() == null) {
-            findOwnerPost.setListPhoto(new ArrayList<Photo>());
+        FindPetPost FindPetPost = listFindPetPost.get(position);
+        if (FindPetPost.getListPhoto() == null) {
+            FindPetPost.setListPhoto(new ArrayList<Photo>());
         }
 
-        holder.adaptetListPhoto = new AdapterListPhoto(mContext,findOwnerPost.getListPhoto());
+        holder.adaptetListPhoto = new AdapterListPhoto(mContext,FindPetPost.getListPhoto());
         holder.linearLayoutManager = new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
-        holder.rvFindOwnerItem_ListImage.setLayoutManager(holder.linearLayoutManager);
-        holder.rvFindOwnerItem_ListImage.setAdapter(holder.adaptetListPhoto);
+        holder.rvFindPetItem_ListImage.setLayoutManager(holder.linearLayoutManager);
+        holder.rvFindPetItem_ListImage.setAdapter(holder.adaptetListPhoto);
 
-        holder.tvFindOwnerItem_Username.setText(findOwnerPost.getFullname());
-        holder.tvFindOwnerItem_Datetime.setText(findOwnerPost.getDatecreated());
-        holder.tvPetInfo_Petname.setText(findOwnerPost.getPetname());
-        holder.tvLocation.setText(findOwnerPost.getAddress());
+        holder.tvFindPetItem_Username.setText(FindPetPost.getFullname());
+        holder.tvFindPetItem_Datetime.setText(FindPetPost.getDatecreated());
+        holder.tvPetInfo_Petname.setText(FindPetPost.getPetname());
+        holder.tvLocation.setText(FindPetPost.getAddress());
 
 
-        holder.tvPetInfo_PetType.setText(findOwnerPost.getTypename());
+        holder.tvPetInfo_PetType.setText(FindPetPost.getTypename());
 
-        if (findOwnerPost.getVaccine().equals("true")) {
+        if (FindPetPost.getVaccine().equals("true")) {
             holder.cbPetInfo_Vacine.setChecked(true);
             holder.btnPetInfo_VaccineDate.setVisibility(View.VISIBLE);
-            holder.btnPetInfo_VaccineDate.setText(findOwnerPost.getVaccinedate());
+            holder.btnPetInfo_VaccineDate.setText(FindPetPost.getVaccinedate());
         }
 
-        if (findOwnerPost.getListPhoto().size() == 1) {
-            holder.rvFindOwnerItem_ListImage.setVisibility(View.GONE);
-            Log.d("URL",findOwnerPost.getListPhoto().get(0).getUrl());
-            Picasso.with(mContext).load(WebserviceAddress.WEB_ADDRESS+findOwnerPost.getListPhoto().get(0).getUrl()).into(holder.imvFindOwnerItem_bigimage);
+        if (FindPetPost.getListPhoto().size() == 1) {
+            holder.rvFindPetItem_ListImage.setVisibility(View.GONE);
+            Log.d("URL",FindPetPost.getListPhoto().get(0).getUrl());
+            Picasso.with(mContext).load(WebserviceAddress.WEB_ADDRESS+FindPetPost.getListPhoto().get(0).getUrl()).into(holder.imvFindPetItem_bigimage);
         } else {
-            holder.imvFindOwnerItem_bigimage.setVisibility(View.GONE);
+            holder.imvFindPetItem_bigimage.setVisibility(View.GONE);
         }
 
     }
@@ -105,36 +102,34 @@ public class AdapterFindOwnerListItem extends RecyclerView.Adapter<AdapterFindOw
 
     @Override
     public int getItemCount() {
-        return listFindOwnerPost.size();
+        return listFindPetPost.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView            tvFindOwnerItem_Username;
-        TextView            tvFindOwnerItem_Datetime;
+        TextView            tvFindPetItem_Username;
+        TextView            tvFindPetItem_Datetime;
         TextView            tvPetInfo_Petname;
         TextView            tvPetInfo_PetType;
         TextView            tvLocation;
         CheckBox            cbPetInfo_Vacine;
         Button              btnPetInfo_VaccineDate;
-        ImageView           imvFindOwnerItem_bigimage;
-        RecyclerView        rvFindOwnerItem_ListImage;
+        ImageView           imvFindPetItem_bigimage;
+        RecyclerView        rvFindPetItem_ListImage;
         AdapterListPhoto    adaptetListPhoto;
         LinearLayoutManager linearLayoutManager;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvFindOwnerItem_Username  = (TextView) itemView.findViewById(R.id.tvFindOwnerItem_Username);
-            tvFindOwnerItem_Datetime  = (TextView) itemView.findViewById(R.id.tvFindOwnerItem_Datetime);
+            tvFindPetItem_Username  = (TextView) itemView.findViewById(R.id.tvFindPetItem_Username);
+            tvFindPetItem_Datetime  = (TextView) itemView.findViewById(R.id.tvFindPetItem_Datetime);
             tvPetInfo_Petname         = (TextView) itemView.findViewById(R.id.tvPetInfo_Petname);
             tvPetInfo_PetType         = (TextView) itemView.findViewById(R.id.tvPetInfo_PetType);
             cbPetInfo_Vacine          = (CheckBox) itemView.findViewById(R.id.cbPetInfo_Vacine);
             btnPetInfo_VaccineDate    = (Button) itemView.findViewById(R.id.btnPetInfo_VaccineDate);
-            imvFindOwnerItem_bigimage = (ImageView) itemView.findViewById(R.id.imvFindOwnerItem_bigimage);
-            rvFindOwnerItem_ListImage = (RecyclerView) itemView.findViewById(R.id.rvFindOwnerItem_ListImage);
-            tvLocation                = (TextView) itemView.findViewById(R.id.tvFindOwnerItem_Location);
-
+            imvFindPetItem_bigimage = (ImageView) itemView.findViewById(R.id.imvFindPetItem_bigimage);
+            rvFindPetItem_ListImage = (RecyclerView) itemView.findViewById(R.id.rvFindPetItem_ListImage);
+            tvLocation                = (TextView) itemView.findViewById(R.id.tvFindPetItem_Location);
             cbPetInfo_Vacine.setClickable(false);
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -15,7 +15,7 @@
 
         <TextView
             android:paddingBottom="5dp"
-            android:id="@+id/tvFindOwnerItem_Username"
+            android:id="@+id/tvFindPetItem_Username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Username"
@@ -24,7 +24,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvFindOwnerItem_Datetime"
+            android:id="@+id/tvFindPetItem_Datetime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="09-06-1995"
@@ -32,7 +32,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tvFindOwnerItem_Location"
+            android:id="@+id/tvFindPetItem_Location"
             android:textColor="@color/text_msg_input"
             android:textSize="15sp"
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             layout="@layout/layout_petinfo_layout"/>
 
         <ImageView
-            android:id="@+id/imvFindOwnerItem_bigimage"
+            android:id="@+id/imvFindPetItem_bigimage"
             android:layout_width="match_parent"
             android:layout_height="250dp"/>
 
@@ -51,7 +51,7 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rvFindOwnerItem_ListImage"
+            android:id="@+id/rvFindPetItem_ListImage"
             android:scrollbars="horizontal">
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>

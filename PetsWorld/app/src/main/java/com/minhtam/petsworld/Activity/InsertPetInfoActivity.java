@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InsertPetInfoActivity extends AppCompatActivity {
+
     private final String TAG = "InsertPetInfoActivity";
 
     private Toolbar              toolbar;
@@ -177,6 +178,18 @@ public class InsertPetInfoActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     btnInsertPetInfo_VaccineDate.setVisibility(View.VISIBLE);
+                    btnInsertPetInfo_VaccineDate.setText(petInfo.getVaccinedate());
+                } else {
+                    btnInsertPetInfo_VaccineDate.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        cbInsertPetInfo_Vacines.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cbInsertPetInfo_Vacines.isChecked()) {
+                    btnInsertPetInfo_VaccineDate.setVisibility(View.VISIBLE);
                     datePickerDialog.show();
                 } else {
                     btnInsertPetInfo_VaccineDate.setVisibility(View.INVISIBLE);
@@ -221,6 +234,8 @@ public class InsertPetInfoActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private boolean CheckInputField() {
         if (edtInsertPetInfoName.getText().toString().equals("")) {

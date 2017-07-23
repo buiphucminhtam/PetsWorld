@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.minhtam.petsworld.Activity.FindOwnerItemDetailActivity">
+    tools:context="com.minhtam.petsworld.Activity.FindPetItemDetailActivity">
 
     <include layout="@layout/toolbar">
     </include>
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageButton
-                    android:id="@+id/btnFindOwnerItemMenu"
+                    android:id="@+id/btnFindPetItemMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -33,7 +33,7 @@
                     android:src="@drawable/ic_more_vert_black_24dp" />
 
                 <TextView
-                    android:id="@+id/tvFindOwnerItemDetail_Username"
+                    android:id="@+id/tvFindPetItemDetail_Username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -45,7 +45,7 @@
 
 
             <TextView
-                android:id="@+id/tvFindOwnerItemDetail_Datetime"
+                android:id="@+id/tvFindPetItemDetail_Datetime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
@@ -54,7 +54,7 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/tvFindOwnerItemDetail_Location"
+                android:id="@+id/tvFindPetItemDetail_Location"
                 android:textColor="@color/text_msg_input"
                 android:textSize="15sp"
                 android:layout_width="match_parent"
@@ -67,11 +67,11 @@
                 android:paddingTop="10dp"
                 android:text="@string/post_description"
                 android:textColor="@color/title_gray"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvFindOwnerItemDetail_Description"
+                android:id="@+id/tvFindPetItemDetail_Description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
@@ -86,11 +86,11 @@
                 android:paddingTop="10dp"
                 android:text="@string/post_requirement"
                 android:textColor="@color/title_gray"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvFindOwnerItemDetail_Requirement"
+                android:id="@+id/tvFindPetItemDetail_Requirement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
@@ -104,13 +104,13 @@
                 android:layout_height="wrap_content" />
 
             <ImageView
-                android:id="@+id/imvFindOwnerItemDetail_bigimage"
+                android:id="@+id/imvFindPetItemDetail_bigimage"
                 android:layout_width="match_parent"
                 android:layout_height="250dp" />
 
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvFindOwnerItemDetail_ListImage"
+                android:id="@+id/rvFindPetItemDetail_ListImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>

@@ -9,7 +9,7 @@
     android:gravity="center">
 
     <TextView
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="80dp"
         android:text="Đăng Nhập"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,6 +42,12 @@
             android:layout_height="wrap_content" />
     </android.support.design.widget.TextInputLayout>
 
+    <CheckBox
+        android:id="@+id/cbSaveLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_login" />
+
     <Button
         android:shadowColor="@color/transparent"
         android:id="@+id/btnLogin"
@@ -53,6 +59,7 @@
         android:layout_height="40dp" />
 
     <Button
+        android:layout_marginBottom="50dp"
         android:shadowColor="@color/transparent"
         android:id="@+id/btnRegister"
         android:layout_marginTop="10dp"

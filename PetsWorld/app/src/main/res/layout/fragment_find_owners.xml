@@ -10,58 +10,120 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TODO: Update blank fragment layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/layout_Post_FindOwner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="7dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="10dp"
                 android:background="@color/background_group"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
 
-                android:orientation="horizontal">
+                android:padding="7dp">
 
                 <ImageView
                     android:id="@+id/imvFindOwner_userimage"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
+
                 <TextView
                     android:id="@+id/tvFindOwner_userPost"
-                    android:hint="Đăng tin tìm người nuôi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
                     android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:hint="Đăng tin tìm người nuôi"
+                    android:paddingLeft="10dp"
                     android:textColorHint="@color/text_msg_input"
+                    android:textSize="16sp"
 
                     />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/btnSearchFindOwner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:src="@drawable/ic_search" />
+
+                    <TextView
+                        android:id="@+id/tvSearchFindOwner"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:text="@string/searchlayouttittle"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_msg_input"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/edtDistanceSearch_FindOwner"
+                    android:hint="@string/search_distance"
+                    android:digits="@string/myPhoneNumberic"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingStart="15dp"
+                    android:textSize="15sp"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+                <ExpandableListView
+                    android:id="@+id/exlvFindOwnerPettype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:keepScreenOn="true"
+                    android:scrollbars="vertical"
+                    android:visibility="gone">
+                </ExpandableListView>
+
+            </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
-                android:orientation="vertical"
-                android:layout_weight="1"
+                android:id="@+id/rvFindOwner_Post"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/rvFindOwner_Post">
+                android:layout_weight="1"
+                android:orientation="vertical">
+
             </android.support.v7.widget.RecyclerView>
 
 
-            <include layout="@layout/footer_progress"
+            <include
                 android:id="@+id/footer"
+                layout="@layout/footer_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
-            </include>
+                android:visibility="gone"></include>
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
-
 
 </FrameLayout>

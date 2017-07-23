@@ -5,20 +5,29 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -27,9 +36,13 @@ import com.minhtam.petsworld.Activity.FindPetItemDetailActivity;
 import com.minhtam.petsworld.Activity.MainActivity;
 import com.minhtam.petsworld.Activity.PlacePostFindPetActivity;
 import com.minhtam.petsworld.Adapter.AdapterFindPetListItem;
+import com.minhtam.petsworld.Adapter.ExpandableListViewPetTypeAdapter;
+import com.minhtam.petsworld.Class.PetType;
 import com.minhtam.petsworld.Class.Photo;
 import com.minhtam.petsworld.Model.FindPetPost;
 import com.minhtam.petsworld.R;
+import com.minhtam.petsworld.Util.GoogleMap.GPSTracker;
+import com.minhtam.petsworld.Util.KSOAP.CallPetType;
 import com.minhtam.petsworld.Util.KSOAP.CallPhoto;
 import com.minhtam.petsworld.Util.KSOAP.CallPostFindPet;
 import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
@@ -38,6 +51,7 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -48,7 +62,7 @@ public class FindPetsFragment extends Fragment {
     private ImageView imvFindPet_userimage;
     private View v;
     private LinearLayout layout_Post;
-    private final String TAG = "FIND_OWNER";
+    private final String TAG = "FIND_PET";
     private final int REQUEST_POST = 1;
     private final int REQUEST_DETAIL = 2;
     private final int RESULT_DELETE = 3;
@@ -62,6 +76,26 @@ public class FindPetsFragment extends Fragment {
     private EndlessScrollListener scrollListener;
     private CallPostFindPet callPostFindPet;
     private SwipeRefreshLayout swipeContainerFindPet;
+
+    //SEARCH
+    private ExpandableListView exlvFindPetPettype;
+    private ImageView btnSearch;
+    private TextView tvSearchFindPet;
+    private EditText edtDistanceSearch_FindPet;
+    private AdapterFindPetListItem adapterTemp;
+
+    private ArrayList<PetType> listChild;
+    private ArrayList<String> listHeader;
+    private HashMap<String,ArrayList<PetType>> hashMapPetType;
+    private ExpandableListViewPetTypeAdapter adapterListPetType;
+    private boolean isPickPetType = false;
+    private String filterTypeName = null;
+    private boolean isTurnOnLocationMode = false;
+    private double distance = 0;
+    private boolean mLocationPermissionGranted = false;
+    private ArrayList<FindPetPost> listFindPetTemp;
+    private int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private GPSTracker gps;
 
 
     public FindPetsFragment() {
@@ -91,6 +125,20 @@ public class FindPetsFragment extends Fragment {
         linearLayoutManager.setRecycleChildrenOnDetach(false);
         rvFindPetPost.setLayoutManager(linearLayoutManager);
         rvFindPetPost.setAdapter(adapter);
+
+        //Search
+        gps = new GPSTracker(getContext());
+        btnSearch = (ImageView) v.findViewById(R.id.btnSearchFindPet);
+        exlvFindPetPettype = (ExpandableListView) v.findViewById(R.id.exlvFindPetPettype);
+        listHeader = new ArrayList<>();
+        listChild = new ArrayList<>();
+        hashMapPetType = new HashMap<>();
+        listFindPetTemp = new ArrayList<>();
+        adapterTemp = new AdapterFindPetListItem(getContext(), listFindPetTemp);
+        adapterListPetType = new ExpandableListViewPetTypeAdapter(getContext(),listHeader,hashMapPetType);
+        exlvFindPetPettype.setAdapter(adapterListPetType);
+        tvSearchFindPet = (TextView) v.findViewById(R.id.tvSearchFindPet);
+        edtDistanceSearch_FindPet = (EditText) v.findViewById(R.id.edtDistanceSearch_FindPet);
 
 
         scrollListener = new EndlessScrollListener() {
@@ -162,7 +210,111 @@ public class FindPetsFragment extends Fragment {
             }
         });
 
+        //SEARCH
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isPickPetType && !isTurnOnLocationMode) {
+                    showSearchType();
+                    showSearchDistance();
+                } else {
+                    hideSearchDistance();
+                    hideSearchType();
+                    btnSearch.setImageResource(R.drawable.ic_search);
+                    tvSearchFindPet.setText(R.string.searchlayouttittle);
+                }
+            }
+        });
+
+        exlvFindPetPettype.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                if (isTurnOnLocationMode) {
+                    tvSearchFindPet.setText(hashMapPetType.get(listHeader.get(groupPosition)).get(childPosition).getTypename() + " trong phạm vi: " + distance + " km");
+                } else {
+                    tvSearchFindPet.setText(hashMapPetType.get(listHeader.get(groupPosition)).get(childPosition).getTypename());
+                }
+                isPickPetType = true;
+                addFilter(hashMapPetType.get(listHeader.get(groupPosition)).get(childPosition).getTypename());
+                rvFindPetPost.swapAdapter(adapterTemp,false);
+                exlvFindPetPettype.setVisibility(View.GONE);
+                edtDistanceSearch_FindPet.setVisibility(View.GONE);
+                btnSearch.setImageResource(R.drawable.ic_clear);
+                return true;
+            }
+        });
+
+        edtDistanceSearch_FindPet.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d(TAG, "afterTextChanged");
+                try {
+                    if (edtDistanceSearch_FindPet.getText().toString().equals("")) {
+                        distance = 0;
+                        isTurnOnLocationMode = false;
+                        if (isPickPetType) {
+                            addFilter(filterTypeName == null ? "" : filterTypeName);
+                            rvFindPetPost.swapAdapter(adapterTemp,false);
+                        } else {
+                            rvFindPetPost.swapAdapter(adapter,false);
+                        }
+                    } else {
+                        distance = Double.parseDouble(edtDistanceSearch_FindPet.getText().toString());
+                        isTurnOnLocationMode = true;
+                        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                == PackageManager.PERMISSION_GRANTED) {
+                            mLocationPermissionGranted = true;
+                            addFilter(filterTypeName == null ? "" : filterTypeName);
+                            rvFindPetPost.swapAdapter(adapterTemp,false);
+                        } else {
+                            ActivityCompat.requestPermissions(getActivity(),
+                                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                        }
+                    }
+
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         new FindPetsFragment.getDataFirstTime().execute();
+    }
+
+    private void showSearchType() {
+        if (hashMapPetType.size() < 1) {
+            new getListType().execute();
+        } else {
+            exlvFindPetPettype.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideSearchType() {
+        isPickPetType = false;
+        rvFindPetPost.swapAdapter(adapter,false);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void showSearchDistance() {
+        edtDistanceSearch_FindPet.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSearchDistance() {
+        isTurnOnLocationMode = false;
+        edtDistanceSearch_FindPet.setText("");
+        edtDistanceSearch_FindPet.setVisibility(View.GONE);
     }
 
     @Override
@@ -199,7 +351,62 @@ public class FindPetsFragment extends Fragment {
 
         }
     }
+    private void addFilter(String type) {
+        Log.d(TAG, "isPickPetType: " + isPickPetType);
+        Log.d(TAG, "isTurnOnLocationMode: " + isTurnOnLocationMode);
+        filterTypeName = type;
+        listFindPetTemp.clear();
+        if (isPickPetType) {
+            for (FindPetPost post: listFindPetPost) {
+                if (post.getTypename().equals(type)) {
+                    listFindPetTemp.add(post);
+                    Log.d(TAG, "+1 Item Type");
+                }
+            }
+        }
+        if (isTurnOnLocationMode) {
 
+            Location myLocal;
+            if (mLocationPermissionGranted) {
+                if (!gps.canGetLocation()) {
+                    gps.showSettingsAlert();
+                } else {
+                    myLocal = gps.getLocation();
+                    if (listFindPetTemp.size() > 0) {
+                        ArrayList<FindPetPost> listTemp = new ArrayList<>();
+                        for (FindPetPost post : listFindPetTemp) {
+                            if (calRange(myLocal.getLongitude(), myLocal.getLatitude(), post.getLongitude(), post.getLatitute()) <= distance) {
+                                listTemp.add(post);
+                                Log.d(TAG, "+1 Item Nearby");
+                            }
+                        }
+                        listFindPetTemp.clear();
+                        listFindPetTemp.addAll(listTemp);
+                        rvFindPetPost.swapAdapter(adapterTemp,false);
+                    } else {
+                        if (!isPickPetType) {
+                            for (FindPetPost post : listFindPetPost) {
+                                if (calRange(myLocal.getLongitude(), myLocal.getLatitude(), post.getLongitude(), post.getLatitute()) <= distance) {
+                                    listFindPetTemp.add(post);
+                                    Log.d(TAG, "+1 Item Nearby");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        adapterTemp.notifyDataSetChanged();
+    }
+
+
+    private double calRange(double lon1,double lat1,double lon2,double lat2) {
+        int R = 6371; // km
+        double x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
+        double y = (lat2 - lat1);
+        return (Math.sqrt(x * x + y * y) * R);
+    }
 
 
     private class getDataFirstTime extends AsyncTask<Void, Void, String> {
@@ -293,6 +500,9 @@ public class FindPetsFragment extends Fragment {
                     post.setListPhoto(listTemp);
                 }
                 listFindPetPost.addAll(posts);
+                if (isPickPetType) {
+                    addFilter(filterTypeName);
+                }
                 return "OK";
             }
             return "";
@@ -336,6 +546,10 @@ public class FindPetsFragment extends Fragment {
                         post.setListPhoto(listTemp);
                     }
                     listFindPetPost.addAll(0,posts);
+
+                    if (isPickPetType) {
+                        addFilter(filterTypeName);
+                    }
                     return "OK";
                 }
             }
@@ -350,6 +564,64 @@ public class FindPetsFragment extends Fragment {
             if(s.equals("OK")) {
                 adapter.notifyDataSetChanged();
             }
+        }
+    }
+
+
+    private class getListType extends AsyncTask<Void, Void, String> {
+        Dialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getContext());
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.progress_layout);
+            progressDialog.getWindow().setBackgroundDrawableResource(R.drawable.background_transparent);
+            progressDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.MATCH_PARENT);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            CallPetType callPetType = new CallPetType();
+            String result = callPetType.Get();
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<PetType>>(){}.getType();
+            List<PetType> posts = (List<PetType>) gson.fromJson(s, listType);
+            Log.d(TAG,"List Pet Type: "+s);
+            listChild.addAll(posts);
+            //add to list header
+            if (listChild.size() > 0) {
+                //Add header to list header
+                for (PetType petType : listChild) {
+                    String headerTemp = petType.getTypename().substring(0, petType.getTypename().indexOf(" "));
+                    if (listHeader.indexOf(headerTemp) == -1) {
+                        listHeader.add(headerTemp);
+                    }
+                }
+                //Add header to hashmap with list
+                for (String header : listHeader) {
+                    hashMapPetType.put(header,new ArrayList<PetType>());
+                }
+
+                //Add child to hash map
+                for (PetType petType : listChild) {
+                    String headerTemp = petType.getTypename().substring(0, petType.getTypename().indexOf(" "));
+                    if (hashMapPetType.get(headerTemp) != null) {
+                        hashMapPetType.get(headerTemp).add(petType);
+                    }
+                }
+            }
+            exlvFindPetPettype.setVisibility(View.VISIBLE);
+            adapterListPetType.notifyDataSetChanged();
+            progressDialog.dismiss();
         }
     }
 

@@ -8,9 +8,9 @@ public class WebserviceAddress
 {
     public  static final String WSDL_TARGET_NAMESPACE = "http://buiphucminhtam.com/";
 
-    public  static final String SOAP_ADDRESS = "http://192.168.1.8/C/Service1.asmx";
-//    public  static final String SOAP_ADDRESS = "http://172.16.8.241/C/Service1.asmx";
-    public  static final String WEB_ADDRESS = "http://192.168.1.8/C/";
+    public  static final String SOAP_ADDRESS = "http://192.168.46.119/C/Service1.asmx";
+//    public  static final String SOAP_ADDRESS = "http://172.16.8.241/C/Service1.asmx";********************
+    public  static final String WEB_ADDRESS = "http://192.168.46.119/C/";
 //    public  static final String WEB_ADDRESS = "http://172.16.8.241/C/";
 
 

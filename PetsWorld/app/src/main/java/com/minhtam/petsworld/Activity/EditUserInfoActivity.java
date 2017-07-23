@@ -1,5 +1,6 @@
 package com.minhtam.petsworld.Activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,11 +16,16 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.minhtam.petsworld.Class.UserInfo;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.CallUserInfo;
@@ -31,7 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class EditUserInfoActivity extends AppCompatActivity {
-
+    private final int REQUEST_PLACE_PICKER = 999;
     private final String TAG = "EditUserInfoActivity";
     private final int PICK_IMAGE = 1;
 
@@ -43,6 +49,8 @@ public class EditUserInfoActivity extends AppCompatActivity {
     private Toast alert;
 
     private Uri imagePicked;
+
+    private ProgressDialog progressDialog;
 
     private Toolbar toolbar;
 
@@ -122,6 +130,23 @@ public class EditUserInfoActivity extends AppCompatActivity {
             }
         });
 
+        edtUpdateAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    new loadOpenMap().execute();
+                }
+            }
+        });
+
+        edtUpdateAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
     }
 
     //run update image in asynctask
@@ -176,12 +201,28 @@ public class EditUserInfoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (progressDialog != null) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        }
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             Log.d(TAG,data.toString());
             if (data == null) return;
             imagePicked = data.getData();
             Log.d(TAG,imagePicked.toString());
             imvUpdateImg.setImageURI(imagePicked);
+        }else
+        if (requestCode == REQUEST_PLACE_PICKER && resultCode == Activity.RESULT_OK) {
+
+            // The user has selected a place. Extract the name and address.
+            final Place place = PlacePicker.getPlace(data, this);
+//                final CharSequence name = place.getName();
+            final CharSequence address = place.getAddress();
+
+            edtUpdateAddress.setText(address);
+
+
         }
     }
 
@@ -232,5 +273,47 @@ public class EditUserInfoActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**GOOGLE MAP**/
+    private void OpenMap(){
+        // Construct an intent for the place picker
+        try {
+            PlacePicker.IntentBuilder intentBuilder =
+                    new PlacePicker.IntentBuilder();
+            Intent intent = intentBuilder.build(this);
+            // Start the intent by requesting a result,
+            // identified by a request code.
+            startActivityForResult(intent, REQUEST_PLACE_PICKER);
+
+        } catch (GooglePlayServicesRepairableException e) {
+            Log.d("GOOGLEMAP", e.toString() + "");
+            // ...
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Log.d("GOOGLEMAP", e.toString() + "");
+            // ...
+        }
+    }
+
+    private class loadOpenMap extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(EditUserInfoActivity.this);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.progress_layout);
+            progressDialog.getWindow().setBackgroundDrawableResource(R.drawable.background_transparent);
+            progressDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.MATCH_PARENT);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            OpenMap();
+            return null;
+        }
+
+    }
+
 
 }

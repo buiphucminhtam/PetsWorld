@@ -21,7 +21,6 @@
                 android:id="@+id/layout_Post_FindPets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/background_group"
                 android:gravity="center_vertical"
@@ -45,6 +44,68 @@
                     android:textColorHint="@color/text_msg_input" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/btnSearchFindPet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_search" />
+
+                    <TextView
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:id="@+id/tvSearchFindPet"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="@string/searchlayouttittle"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_msg_input"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/edtDistanceSearch_FindPet"
+                    android:hint="@string/search_distance"
+                    android:digits="@string/myPhoneNumberic"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingStart="15dp"
+                    android:textSize="15sp"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <ExpandableListView
+                    android:id="@+id/exlvFindPetPettype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:keepScreenOn="true"
+                    android:scrollbars="vertical"
+                    android:visibility="gone">
+                </ExpandableListView>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,7 +114,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvFindPets_Post"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+                    android:layout_height="match_parent">
+                </android.support.v7.widget.RecyclerView>
 
             </LinearLayout>
         </LinearLayout>

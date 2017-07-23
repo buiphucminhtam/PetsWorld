@@ -8,10 +8,10 @@ import com.minhtam.petsworld.Class.Photo;
 import java.util.ArrayList;
 
 /**
- * Created by st on 5/24/2017.
+ * Created by st on 6/14/2017.
  */
 
-public class FindOwnerPost implements Parcelable{
+public class FindPetPost implements Parcelable {
     private String id;
     private String fullname;
     private String datecreated;
@@ -28,11 +28,11 @@ public class FindOwnerPost implements Parcelable{
 
     private ArrayList<Photo> listPhoto;
 
-    public FindOwnerPost() {
+    public FindPetPost() {
         super();
     }
 
-    protected FindOwnerPost(Parcel in) {
+    protected FindPetPost(Parcel in) {
         id = in.readString();
         fullname = in.readString();
         datecreated = in.readString();
@@ -50,21 +50,17 @@ public class FindOwnerPost implements Parcelable{
         listPhoto = in.createTypedArrayList(Photo.CREATOR);
     }
 
-    public static final Creator<FindOwnerPost> CREATOR = new Creator<FindOwnerPost>() {
+    public static final Creator<FindPetPost> CREATOR = new Creator<FindPetPost>() {
         @Override
-        public FindOwnerPost createFromParcel(Parcel in) {
-            return new FindOwnerPost(in);
+        public FindPetPost createFromParcel(Parcel in) {
+            return new FindPetPost(in);
         }
 
         @Override
-        public FindOwnerPost[] newArray(int size) {
-            return new FindOwnerPost[size];
+        public FindPetPost[] newArray(int size) {
+            return new FindPetPost[size];
         }
     };
-
-    public String getId() {
-        return id;
-    }
 
     public String getAddress() {
         return address;
@@ -88,6 +84,10 @@ public class FindOwnerPost implements Parcelable{
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setId(String id) {

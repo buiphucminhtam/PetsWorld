@@ -30,7 +30,7 @@ import com.minhtam.petsworld.Adapter.AdapterListPhoto;
 import com.minhtam.petsworld.Class.Photo;
 import com.minhtam.petsworld.Class.Report;
 import com.minhtam.petsworld.Class.UserInfo;
-import com.minhtam.petsworld.Model.FindOwnerPost;
+import com.minhtam.petsworld.Model.FindPetPost;
 import com.minhtam.petsworld.R;
 import com.minhtam.petsworld.Util.KSOAP.CallPetInfo;
 import com.minhtam.petsworld.Util.KSOAP.CallReport;
@@ -43,27 +43,27 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class FindOwnerItemDetailActivity extends AppCompatActivity {
+public class FindPetItemDetailActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private final String TAG = "FindOwnerItemDetailActivity";
+    private final String TAG = "FindPetItemDetailActivity";
     private final int REQUEST_EDIT = 1;
     private final int RESULT_DELETE = 3;
     private final int RESULT_EDIT = 4;
     private Activity activity;
-    private TextView tvFindOwnerItemDetail_Username;
-    private TextView tvFindOwnerItemDetail_Datetime;
-    private TextView tvFindOwnerItemDetail_Description;
-    private TextView tvFindOwnerItemDetail_Requirement;
+    private TextView tvFindPetItemDetail_Username;
+    private TextView tvFindPetItemDetail_Datetime;
+    private TextView tvFindPetItemDetail_Description;
+    private TextView tvFindPetItemDetail_Requirement;
+    private TextView tvLocation;
     private TextView tvPetInfo_Petname;
     private TextView tvPetInfo_PetType;
-    private TextView tvLocation;
     private Button btnPetInfo_VaccineDate;
     private CheckBox cbPetInfo_Vacine;
-    private ImageView imvFindOwnerItemDetail_bigimage;
-    private RecyclerView rvFindOwnerItem_ListImage;
+    private ImageView imvFindPetItemDetail_bigimage;
+    private RecyclerView rvFindPetItem_ListImage;
     private AdapterListPhoto adaptetListPhoto;
     private LinearLayoutManager linearLayoutManager;
-    private FindOwnerPost findOwnerPost;
+    private FindPetPost findpetpost;
     private ImageButton btnMenu;
     private UserInfo userPostInfo;
 
@@ -75,14 +75,12 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
     private TextView tvDialogItemDetailDelete;
 
     private Intent intentFragment;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_owner_item_detail);
+        setContentView(R.layout.activity_find_pet_item_detail);
         intentFragment = getIntent();
-        findOwnerPost = getIntent().getParcelableExtra("selecteditem");
+        findpetpost = getIntent().getParcelableExtra("selecteditem");
         activity = this;
         AddControl();
         AddEvent();
@@ -98,22 +96,22 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle("Thông tin chi tiết");
 
-        tvFindOwnerItemDetail_Username      = (TextView) findViewById(R.id.tvFindOwnerItemDetail_Username);
-        tvFindOwnerItemDetail_Datetime      = (TextView) findViewById(R.id.tvFindOwnerItemDetail_Datetime);
-        tvFindOwnerItemDetail_Description   = (TextView) findViewById(R.id.tvFindOwnerItemDetail_Description);
-        tvFindOwnerItemDetail_Requirement   = (TextView) findViewById(R.id.tvFindOwnerItemDetail_Requirement);
+        tvFindPetItemDetail_Username      = (TextView) findViewById(R.id.tvFindPetItemDetail_Username);
+        tvFindPetItemDetail_Datetime      = (TextView) findViewById(R.id.tvFindPetItemDetail_Datetime);
+        tvFindPetItemDetail_Description   = (TextView) findViewById(R.id.tvFindPetItemDetail_Description);
+        tvFindPetItemDetail_Requirement   = (TextView) findViewById(R.id.tvFindPetItemDetail_Requirement);
         tvPetInfo_Petname                   = (TextView) findViewById(R.id.tvPetInfo_Petname);
         tvPetInfo_PetType                   = (TextView) findViewById(R.id.tvPetInfo_PetType);
         cbPetInfo_Vacine                    = (CheckBox) findViewById(R.id.cbPetInfo_Vacine);
         btnPetInfo_VaccineDate              = (Button) findViewById(R.id.btnPetInfo_VaccineDate);
-        imvFindOwnerItemDetail_bigimage     = (ImageView)findViewById(R.id.imvFindOwnerItemDetail_bigimage);
-        rvFindOwnerItem_ListImage           = (RecyclerView) findViewById(R.id.rvFindOwnerItemDetail_ListImage);
-        btnMenu                             = (ImageButton) findViewById(R.id.btnFindOwnerItemMenu);
-        tvLocation                          = (TextView) findViewById(R.id.tvFindOwnerItemDetail_Location);
+        imvFindPetItemDetail_bigimage     = (ImageView)findViewById(R.id.imvFindPetItemDetail_bigimage);
+        rvFindPetItem_ListImage           = (RecyclerView) findViewById(R.id.rvFindPetItemDetail_ListImage);
+        btnMenu                             = (ImageButton) findViewById(R.id.btnFindPetItemMenu);
+        tvLocation                          = (TextView) findViewById(R.id.tvFindPetItemDetail_Location);
         linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        adaptetListPhoto = new AdapterListPhoto(this,findOwnerPost.getListPhoto());
-        rvFindOwnerItem_ListImage.setLayoutManager(linearLayoutManager);
-        rvFindOwnerItem_ListImage.setAdapter(adaptetListPhoto);
+        adaptetListPhoto = new AdapterListPhoto(this,findpetpost.getListPhoto());
+        rvFindPetItem_ListImage.setLayoutManager(linearLayoutManager);
+        rvFindPetItem_ListImage.setAdapter(adaptetListPhoto);
         dialogMenu = new Dialog(this);
         dialogMenu.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogMenu.setContentView(R.layout.dialog_menu_postitem);
@@ -123,38 +121,37 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         tvDialogItemDetailDelete = (TextView) dialogMenu.findViewById(R.id.tvDialogItemDetailDeletePost);
 
         //get userpost info
-        new getUserInfo().execute();
+        new FindPetItemDetailActivity.getUserInfo().execute();
 
     }
     private void AddEvent() {
-        if (findOwnerPost.getListPhoto() == null) {
-            findOwnerPost.setListPhoto(new ArrayList<Photo>());
+        if (findpetpost.getListPhoto() == null) {
+            findpetpost.setListPhoto(new ArrayList<Photo>());
         }
 
-        if(findOwnerPost.getFullname() != null) tvFindOwnerItemDetail_Username.setText(findOwnerPost.getFullname());
-        if(findOwnerPost.getDatecreated() != null) tvFindOwnerItemDetail_Datetime.setText(findOwnerPost.getDatecreated());
-        if(findOwnerPost.getDescription() != null) tvFindOwnerItemDetail_Description.setText(findOwnerPost.getDescription());
-        if(findOwnerPost.getRequirement() != null) tvFindOwnerItemDetail_Requirement.setText(findOwnerPost.getRequirement());
-        if(findOwnerPost.getPetname() != null) tvPetInfo_Petname.setText(findOwnerPost.getPetname());
-        if(findOwnerPost.getTypename() != null) tvPetInfo_PetType.setText(findOwnerPost.getTypename());
-        if(findOwnerPost.getAddress() != null) tvLocation.setText(findOwnerPost.getAddress());
-        if(findOwnerPost.getVaccine() != null) {
-            if (findOwnerPost.getVaccine().equals("false")) {
+        if(findpetpost.getFullname() != null) tvFindPetItemDetail_Username.setText(findpetpost.getFullname());
+        if(findpetpost.getDatecreated() != null) tvFindPetItemDetail_Datetime.setText(findpetpost.getDatecreated());
+        if(findpetpost.getDescription() != null) tvFindPetItemDetail_Description.setText(findpetpost.getDescription());
+        if(findpetpost.getRequirement() != null) tvFindPetItemDetail_Requirement.setText(findpetpost.getRequirement());
+        if(findpetpost.getPetname() != null) tvPetInfo_Petname.setText(findpetpost.getPetname());
+        if(findpetpost.getTypename() != null) tvPetInfo_PetType.setText(findpetpost.getTypename());
+        if(findpetpost.getAddress() != null) tvLocation.setText(findpetpost.getAddress());
+        if(findpetpost.getVaccine() != null) {
+            if (findpetpost.getVaccine().equals("false")) {
                 cbPetInfo_Vacine.setChecked(false);
                 btnPetInfo_VaccineDate.setVisibility(View.INVISIBLE);
             } else {
                 cbPetInfo_Vacine.setChecked(true);
                 btnPetInfo_VaccineDate.setVisibility(View.VISIBLE);
-                btnPetInfo_VaccineDate.setText(findOwnerPost.getVaccinedate());
+                btnPetInfo_VaccineDate.setText(findpetpost.getVaccinedate());
             }
         }
-
-        if (findOwnerPost.getListPhoto().size() == 1) {
-            rvFindOwnerItem_ListImage.setVisibility(View.GONE);
-            Log.d("URL",findOwnerPost.getListPhoto().get(0).getUrl());
-            Picasso.with(this).load(WebserviceAddress.WEB_ADDRESS+findOwnerPost.getListPhoto().get(0).getUrl()).into(imvFindOwnerItemDetail_bigimage);
+        if (findpetpost.getListPhoto().size() == 1) {
+            rvFindPetItem_ListImage.setVisibility(View.GONE);
+            Log.d("URL",findpetpost.getListPhoto().get(0).getUrl());
+            Picasso.with(this).load(WebserviceAddress.WEB_ADDRESS+findpetpost.getListPhoto().get(0).getUrl()).into(imvFindPetItemDetail_bigimage);
         } else {
-            imvFindOwnerItemDetail_bigimage.setVisibility(View.GONE);
+            imvFindPetItemDetail_bigimage.setVisibility(View.GONE);
         }
 
         btnMenu.setOnClickListener(new View.OnClickListener() {
@@ -169,24 +166,23 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
                 window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.WRAP_CONTENT);
 
-                if (userPostInfo.getId().equals(MainActivity.userInfo.getId())) {
+                if (findpetpost.getUserId().equals(MainActivity.userInfo.getId())) {
                     tvDialogItemDetailEdit.setVisibility(View.VISIBLE);
                     tvDialogItemDetailDelete.setVisibility(View.VISIBLE);
                     tvDialogItemDetailContact.setVisibility(View.GONE);
                     tvDialogItemDetailReport.setVisibility(View.GONE);
                 } else {
-                    tvDialogItemDetailContact.setVisibility(View.VISIBLE);
-                    tvDialogItemDetailReport.setVisibility(View.VISIBLE);
                     tvDialogItemDetailEdit.setVisibility(View.GONE);
                     tvDialogItemDetailDelete.setVisibility(View.GONE);
+                    tvDialogItemDetailContact.setVisibility(View.VISIBLE);
+                    tvDialogItemDetailReport.setVisibility(View.VISIBLE);
                 }
-
 
                 tvDialogItemDetailContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (userPostInfo == null) {
-                            new getUserInfo().execute();
+                            new FindPetItemDetailActivity.getUserInfo().execute();
                         } else {
                             showDialogUserInfo();
                         }
@@ -199,6 +195,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
                         final Dialog dialogReport = new Dialog(activity);
                         dialogReport.setContentView(R.layout.dialog_report_post);
                         dialogReport.setTitle("Gửi báo cáo");
+
                         dialogReport.show();
                         dialogMenu.dismiss();
 
@@ -209,8 +206,8 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 String msg = edtMsg.getText().toString();
-                                Report report = new Report(0,Integer.parseInt(findOwnerPost.getUserId()),
-                                        Integer.parseInt(findOwnerPost.getPetId()),1,
+                                Report report = new Report(0,Integer.parseInt(findpetpost.getUserId()),
+                                        Integer.parseInt(findpetpost.getPetId()),2,
                                         msg,"");
 
                                 new insertReport().execute(report.toJson());
@@ -225,9 +222,9 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
                 tvDialogItemDetailEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //start activity place post with findowner post
-                        Intent i = new Intent(activity, PlacePostFindOwnerActivity.class);
-                        i.putExtra("findownerpost",findOwnerPost);
+                        //start activity place post with FindPet post
+                        Intent i = new Intent(activity, PlacePostFindPetActivity.class);
+                        i.putExtra("findpetpost",findpetpost);
                         startActivityForResult(i,REQUEST_EDIT);
                     }
                 });
@@ -235,12 +232,11 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
                 tvDialogItemDetailDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new deletePetInfo().execute();
+                        new FindPetItemDetailActivity.deletePetInfo().execute();
                     }
                 });
             }
         });
-
 
     }
 
@@ -252,12 +248,13 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         return true;
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK) {
-            FindOwnerPost findOwnerPost = data.getParcelableExtra("findownerpost");
-            intentFragment.putExtra("findownerpost",findOwnerPost);
+            FindPetPost findPetPost = data.getParcelableExtra("findpetpost");
+            intentFragment.putExtra("findpetpost",findPetPost);
             setResult(RESULT_EDIT,intentFragment);
             finish();
         }
@@ -269,7 +266,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(FindOwnerItemDetailActivity.this);
+            progressDialog = new ProgressDialog(FindPetItemDetailActivity.this);
             progressDialog.setCancelable(false);
             progressDialog.show();
             progressDialog.setContentView(R.layout.progress_layout);
@@ -280,7 +277,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             CallUserInfo callUserInfo = new CallUserInfo();
-            String result = callUserInfo.CallGet(Integer.parseInt(findOwnerPost.getUserId()));
+            String result = callUserInfo.CallGet(Integer.parseInt(findpetpost.getUserId()));
 
             return result;
         }
@@ -294,6 +291,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
                 jsonArray = new JSONArray(s);
                 UserInfo userInfo = new Gson().fromJson(jsonArray.getString(0),UserInfo.class);
                 userPostInfo = userInfo;
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -306,7 +304,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(FindOwnerItemDetailActivity.this);
+            progressDialog = new ProgressDialog(FindPetItemDetailActivity.this);
             progressDialog.setCancelable(false);
             progressDialog.show();
             progressDialog.setContentView(R.layout.progress_layout);
@@ -317,7 +315,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             CallPetInfo callPetInfo = new CallPetInfo();
-            int result = callPetInfo.Delete(Integer.parseInt(findOwnerPost.getPetId()));
+            int result = callPetInfo.Delete(Integer.parseInt(findpetpost.getPetId()));
             return String.valueOf(result);
         }
 
@@ -326,7 +324,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
             super.onPostExecute(s);
             if (s.equals("1")) {
                 Toast.makeText(activity, "Xóa thành công", Toast.LENGTH_SHORT).show();
-                Intent i = getIntent().putExtra("deleted",findOwnerPost.getId());
+                Intent i = getIntent().putExtra("deleted",findpetpost.getId());
                 setResult(RESULT_DELETE,i);
                 finish();
             } else {
@@ -341,7 +339,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(FindOwnerItemDetailActivity.this);
+            progressDialog = new ProgressDialog(FindPetItemDetailActivity.this);
             progressDialog.setCancelable(false);
             progressDialog.show();
             progressDialog.setContentView(R.layout.progress_layout);
@@ -361,7 +359,6 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
             super.onPostExecute(s);
             if (s.equals("1")) {
                 Toast.makeText(activity, "Gửi báo cáo thành công", Toast.LENGTH_SHORT).show();
-
             } else {
                 Toast.makeText(activity, "Gửi báo cáo thất bại, kiểm tra kết nối mạng", Toast.LENGTH_SHORT).show();
             }
@@ -369,8 +366,9 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         }
     }
 
+
     private void showDialogUserInfo() {
-        final Dialog dialog = new Dialog(FindOwnerItemDetailActivity.this);
+        final Dialog dialog = new Dialog(FindPetItemDetailActivity.this);
         dialog.setContentView(R.layout.dialog_userinformation_detail);
         dialog.setTitle("Thông tin liên lạc");
         dialog.show();
@@ -424,7 +422,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(FindOwnerItemDetailActivity.this);
+            progressDialog = new ProgressDialog(FindPetItemDetailActivity.this);
             progressDialog.setCancelable(false);
             progressDialog.show();
             progressDialog.setContentView(R.layout.progress_layout);
@@ -451,7 +449,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
             else
                 text = "Lỗi, Kiểm tra lại kết nối mạng";
 
-            Toast.makeText(FindOwnerItemDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+            Toast.makeText(FindPetItemDetailActivity.this, text, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -461,7 +459,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(FindOwnerItemDetailActivity.this);
+            progressDialog = new ProgressDialog(FindPetItemDetailActivity.this);
             progressDialog.setCancelable(false);
             progressDialog.show();
             progressDialog.setContentView(R.layout.progress_layout);
@@ -488,7 +486,7 @@ public class FindOwnerItemDetailActivity extends AppCompatActivity {
             else
                 text = "Lỗi, Kiểm tra lại kết nối mạng";
 
-            Toast.makeText(FindOwnerItemDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+            Toast.makeText(FindPetItemDetailActivity.this, text, Toast.LENGTH_SHORT).show();
         }
     }
 }

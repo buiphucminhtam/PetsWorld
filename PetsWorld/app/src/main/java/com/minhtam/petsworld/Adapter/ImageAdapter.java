@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.minhtam.petsworld.R;
+import com.minhtam.petsworld.Util.Dialog.MyImagViewDialog;
 import com.minhtam.petsworld.Util.KSOAP.WebserviceAddress;
 import com.squareup.picasso.Picasso;
 
@@ -79,6 +80,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         public MyViewHolder(View itemView) {
             super(itemView);
             img = (ImageView) itemView.findViewById(R.id.imvGalleryItem);
+
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyImagViewDialog dialog = new MyImagViewDialog(context,R.layout.dialog_view_image,listPickedImage.get(getAdapterPosition()));
+                    dialog.ShowDialog();
+                }
+            });
         }
     }
 }

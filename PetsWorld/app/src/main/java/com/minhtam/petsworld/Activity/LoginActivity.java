@@ -3,12 +3,14 @@ package com.minhtam.petsworld.Activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ public class LoginActivity extends Activity {
     //UI
     private EditText edtUsername,edtPasssword;
     private Button btnLogin,btnRegister;
+    private CheckBox cbSaveLogin;
 
     //
     private String username = "";
@@ -49,9 +52,25 @@ public class LoginActivity extends Activity {
         edtPasssword = (EditText) findViewById(R.id.edtLoginUserPassword);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
+        cbSaveLogin = (CheckBox) findViewById(R.id.cbSaveLogin);
     }
 
     private void AddEvent() {
+
+        //Check save login
+        SharedPreferences pre=getSharedPreferences ("userLogin",MODE_PRIVATE);
+
+        if (pre.getBoolean("checked", false)) {
+            Log.d("LoginActivity","isSaveLogin: true");
+            username = pre.getString("username", "");
+            password = pre.getString("pwd","");
+            if (!username.equals("")) {
+                if (!password.equals("")) {
+                    new AsyncTaskLogin().execute();
+                }
+            }
+        }else Log.d("LoginActivity","isSaveLogin: false");
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +92,7 @@ public class LoginActivity extends Activity {
                 startActivity(intent);
             }
         });
+
     }
 
 
@@ -134,6 +154,23 @@ public class LoginActivity extends Activity {
                         userInfo.setUsername(username);
                         userInfo.setPassword(password);
                         Log.d(TAG, "userInfoJSON: " + userInfo.toJSON());
+
+                        //Check to save login
+                        SharedPreferences pre = getSharedPreferences("userLogin", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pre.edit();
+                        if (cbSaveLogin.isChecked()) {
+
+                            editor.putString("username", username);
+
+                            editor.putString("pwd", password);
+
+                            editor.putBoolean("checked", true);
+
+                            editor.commit();
+                        } else {
+                            editor.clear();
+                        }
+
                         //start activity
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         i.putExtra("userInfo", userInfo);

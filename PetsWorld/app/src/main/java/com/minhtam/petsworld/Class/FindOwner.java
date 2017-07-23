@@ -11,19 +11,23 @@ import com.google.gson.Gson;
 
 public class FindOwner implements Parcelable {
     private int id,userid,petid;
-    private String description,requirement,datecreated;
+    private String description,requirement,datecreated,address;
+    private double latitute,longitude;
 
     public FindOwner() {
         super();
     }
 
-    public FindOwner(int id, int userid, int petid, String description, String requirement, String datecreated) {
+    public FindOwner(int id, int userid, int petid, String description, String requirement, String datecreated, String address, double latitute, double longitude) {
         this.id = id;
         this.userid = userid;
         this.petid = petid;
         this.description = description;
         this.requirement = requirement;
         this.datecreated = datecreated;
+        this.address = address;
+        this.latitute = latitute;
+        this.longitude = longitude;
     }
 
     protected FindOwner(Parcel in) {
@@ -33,6 +37,9 @@ public class FindOwner implements Parcelable {
         description = in.readString();
         requirement = in.readString();
         datecreated = in.readString();
+        address = in.readString();
+        latitute = in.readDouble();
+        longitude = in.readDouble();
     }
 
     public static final Creator<FindOwner> CREATOR = new Creator<FindOwner>() {
@@ -46,6 +53,30 @@ public class FindOwner implements Parcelable {
             return new FindOwner[size];
         }
     };
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public double getLatitute() {
+        return latitute;
+    }
+
+    public void setLatitute(double latitute) {
+        this.latitute = latitute;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
     public int getId() {
         return id;
@@ -100,6 +131,7 @@ public class FindOwner implements Parcelable {
         return gson.toJson(this);
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -113,5 +145,8 @@ public class FindOwner implements Parcelable {
         dest.writeString(description);
         dest.writeString(requirement);
         dest.writeString(datecreated);
+        dest.writeString(address);
+        dest.writeDouble(latitute);
+        dest.writeDouble(longitude);
     }
 }

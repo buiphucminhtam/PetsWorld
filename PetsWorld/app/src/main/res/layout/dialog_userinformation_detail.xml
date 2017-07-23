@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="380dp"
+    android:layout_height="wrap_content">
+
+    <include android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_user_information"/>
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnUserInfomation_Detail_BlockUser"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textColor="@color/white"
+        android:text="Khóa tài khoản"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/roundedbutton_green_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

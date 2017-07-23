@@ -50,4 +50,10 @@
     <string name="findpetlost">Tìm thú nuôi thất lạc</string>
     <string name="delete">Xóa</string>
     <string name="update_post">Chỉnh sửa</string>
+    <string name="searchlayouttittle">Tìm kiếm theo loại vật nuôi</string>
+    <string name="googlemapkey">AIzaSyDaGTnVy_mjRPRycQ8JTd-tJOTyw4AcYrQ</string>
+    <string name="location_input">Chọn vị trí</string>
+    <string name="error_not_insert_address">Bạn chưa chọn vị trí</string>
+    <string name="search_distance">Tìm trong phạm vi (km)</string>
+    <string name="save_login">Lưu đăng nhập</string>
 </resources>

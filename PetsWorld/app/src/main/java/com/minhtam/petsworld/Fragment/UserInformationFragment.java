@@ -98,9 +98,10 @@ public class UserInformationFragment extends Fragment {
         tvUserInformation_FindOwnerPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (findOwnerPostLayoutManager == null) {
-                    initFindOwnerPostLayout();
-                }
+//                if (findOwnerPostLayoutManager == null) {
+//                    initFindOwnerPostLayout();
+//                }
+                initFindOwnerPostLayout();
                 changeViewPost(mFindOwnerPostLayout);
                 tvUserInformation_FindOwnerPost.setBackgroundResource(R.color.selector);
                 tvUserInformation_FindPetPost.setBackgroundResource(R.color.colorPrimary);
@@ -110,9 +111,10 @@ public class UserInformationFragment extends Fragment {
         tvUserInformation_FindPetPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (findPetPostLayoutManager == null) {
-                    initFindPetPostLayout();
-                }
+//                if (findPetPostLayoutManager == null) {
+//                    initFindPetPostLayout();
+//                }
+                initFindPetPostLayout();
                 changeViewPost(mFindPetPostLayout);
                 tvUserInformation_FindOwnerPost.setBackgroundResource(R.color.colorPrimary);
                 tvUserInformation_FindPetPost.setBackgroundResource(R.color.selector);
